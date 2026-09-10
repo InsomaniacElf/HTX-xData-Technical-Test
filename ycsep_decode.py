@@ -1,80 +1,118 @@
+import argparse
 import os
 import tempfile
+from pathlib import Path
 
 import pandas as pd
 import requests
 
 
-CSV_PATH = r"C:\Users\Sneha\Downloads\YCSEP_static.csv"
-API_URL = "http://localhost:8001/asr"
+DEFAULT_CSV_PATH = r"C:\Users\Sneha\Downloads\YCSEP_static.csv"
+DEFAULT_API_URL = "http://localhost:8001/asr"
+DEFAULT_OUTPUT_PATH = Path("asr") / "TDK_subset.csv"
+TDK_CHANNEL = "The_Daily_Ketchup_Podcast"
 
 
-# Load only the columns we need for this test
-df = pd.read_csv(
-    CSV_PATH,
-    usecols=["channel", "text", "audio"]
-)
-
-# Keep only The Daily Ketchup Podcast
-tdk = df[df["channel"] == "The_Daily_Ketchup_Podcast"]
-
-# Take the first 5 clips for testing
-rows = tdk.iloc[:5]
-for i, (_, row) in enumerate(rows.iterrows(), start=1):
-
-    print("=" * 80)
-    print(f"CLIP {i}/5")
-    print("=" * 80)
-
-    print("Reference text:")
-    print(row["text"])
-    print()
-    print("Audio URL:")
-    print(row["audio"])
-    print()
-
-    # Download audio
-    response = requests.get(row["audio"], timeout=30)
+def transcribe_audio_url(audio_url: str, api_url: str) -> tuple[str, float]:
+    """Download one YCSEP MP3 segment and send it to the local ASR API."""
+    response = requests.get(audio_url, timeout=30)
     response.raise_for_status()
 
-    with tempfile.NamedTemporaryFile(
-        delete=False,
-        suffix=".mp3"
-    ) as tmp:
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp:
         tmp.write(response.content)
         audio_path = tmp.name
 
     try:
-        # Send audio to ASR API
         with open(audio_path, "rb") as audio_file:
             api_response = requests.post(
-                API_URL,
-                files={
-                    "file": (
-                        "audio.mp3",
-                        audio_file,
-                        "audio/mpeg"
-                    )
-                },
-                timeout=120
+                api_url,
+                files={"file": ("audio.mp3", audio_file, "audio/mpeg")},
+                timeout=120,
             )
 
         api_response.raise_for_status()
-
         result = api_response.json()
-
-        print("Generated transcription:")
-        print(result["transcription"])
-        print()
-
-        print("ASR duration:")
-        print(f"{result['duration']:.2f} seconds")
-
-    except Exception as e:
-        print(f"ERROR: {e}")
+        return result["transcription"], float(result["duration"])
 
     finally:
         if os.path.exists(audio_path):
             os.remove(audio_path)
 
-    print()
+
+def decode_tdk_subset(
+    csv_path: str,
+    api_url: str,
+    output_path: Path,
+    limit: int | None,
+) -> pd.DataFrame:
+    """Create TDK_subset.csv with Parakeet base-model transcriptions."""
+    df = pd.read_csv(csv_path)
+    tdk = df[df["channel"] == TDK_CHANNEL].copy()
+
+    if limit is not None:
+        tdk = tdk.head(limit).copy()
+
+    generated_text = []
+    asr_duration = []
+    asr_error = []
+    total_rows = len(tdk)
+
+    for item_no, (index, row) in enumerate(tdk.iterrows(), start=1):
+        print(f"[{item_no}/{total_rows}] Transcribing row {index}")
+
+        try:
+            transcription, duration = transcribe_audio_url(row["audio"], api_url)
+            generated_text.append(transcription)
+            asr_duration.append(duration)
+            asr_error.append("")
+            print(f"Reference:  {row['text']}")
+            print(f"Generated:  {transcription}")
+            print(f"Duration:   {duration:.2f}s")
+
+        except Exception as exc:
+            generated_text.append("")
+            asr_duration.append("")
+            asr_error.append(str(exc))
+            print(f"ERROR: {exc}")
+
+        print()
+
+    tdk["generated_text"] = generated_text
+    tdk["asr_duration_seconds"] = asr_duration
+    tdk["asr_error"] = asr_error
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    tdk.to_csv(output_path, index=False)
+    return tdk
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Decode The Daily Ketchup YCSEP clips through the ASR API."
+    )
+    parser.add_argument("--csv", default=DEFAULT_CSV_PATH, help="Path to YCSEP_static.csv")
+    parser.add_argument("--api-url", default=DEFAULT_API_URL, help="ASR API endpoint")
+    parser.add_argument(
+        "--output",
+        default=str(DEFAULT_OUTPUT_PATH),
+        help="Output CSV path for the TDK subset",
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=5,
+        help="Number of TDK rows to process. Use --limit 0 for all rows.",
+    )
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    args = parse_args()
+    row_limit = None if args.limit == 0 else args.limit
+    decoded = decode_tdk_subset(
+        csv_path=args.csv,
+        api_url=args.api_url,
+        output_path=Path(args.output),
+        limit=row_limit,
+    )
+    print(f"Saved {len(decoded)} rows to {args.output}")
