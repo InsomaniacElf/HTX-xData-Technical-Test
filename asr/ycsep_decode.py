@@ -13,6 +13,37 @@ DEFAULT_OUTPUT_PATH = Path("asr") / "TDK_subset.csv"
 TDK_CHANNEL = "The_Daily_Ketchup_Podcast"
 
 
+def normalize_words(text: str) -> list[str]:
+    """Lowercase and keep simple word tokens for a lightweight WER comparison."""
+    import re
+
+    return re.findall(r"[a-z0-9']+", str(text).lower())
+
+
+def edit_distance(reference: list[str], hypothesis: list[str]) -> int:
+    previous = list(range(len(hypothesis) + 1))
+    for i, ref_token in enumerate(reference, start=1):
+        current = [i]
+        for j, hyp_token in enumerate(hypothesis, start=1):
+            substitution = previous[j - 1] + (ref_token != hyp_token)
+            insertion = current[j - 1] + 1
+            deletion = previous[j] + 1
+            current.append(min(substitution, insertion, deletion))
+        previous = current
+    return previous[-1]
+
+
+def corpus_wer(references: pd.Series, hypotheses: pd.Series) -> float:
+    edits = 0
+    words = 0
+    for reference, hypothesis in zip(references, hypotheses):
+        ref_words = normalize_words(reference)
+        hyp_words = normalize_words(hypothesis)
+        edits += edit_distance(ref_words, hyp_words)
+        words += len(ref_words)
+    return edits / words if words else 0.0
+
+
 def transcribe_audio_url(audio_url: str, api_url: str) -> tuple[str, float]:
     """Download one YCSEP MP3 segment and send it to the local ASR API."""
     response = requests.get(audio_url, timeout=30)
@@ -83,6 +114,24 @@ def decode_tdk_subset(
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     tdk.to_csv(output_path, index=False)
+
+    successful = tdk[tdk["asr_error"].fillna("").eq("")]
+    wer = corpus_wer(successful["text"], successful["generated_text"]) if len(successful) else float("nan")
+    summary_path = output_path.with_name(output_path.stem + "_summary.txt")
+    summary_path.write_text(
+        "\n".join(
+            [
+                "Task 2c ASR comparison summary",
+                f"Rows in output: {len(tdk)}",
+                f"Successful transcriptions: {len(successful)}",
+                f"Failed transcriptions: {len(tdk) - len(successful)}",
+                f"Corpus WER on successful rows: {wer:.4f}",
+                "Assumption: WER is computed after lowercasing and simple word-token normalization.",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     return tdk
 
 

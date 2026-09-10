@@ -1,0 +1,6 @@
+Task 2c ASR comparison summary
+Rows in output: 5
+Successful transcriptions: 5
+Failed transcriptions: 0
+Corpus WER on successful rows: 0.3684
+Assumption: WER is computed after lowercasing and simple word-token normalization.

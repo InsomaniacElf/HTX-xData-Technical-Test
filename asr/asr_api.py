@@ -43,9 +43,11 @@ async def transcribe(file: UploadFile = File(...)):
 
         duration = time.perf_counter() - start
 
+        transcription = result[0].text if hasattr(result[0], "text") else str(result[0])
+
         return {
-            "transcription": result[0].text,
-            "duration": duration
+            "transcription": transcription,
+            "duration": f"{duration:.6f}"
         }
 
     finally:
