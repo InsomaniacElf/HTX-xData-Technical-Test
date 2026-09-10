@@ -6,3 +6,4 @@ requests
 librosa
 soundfile
 nemo_toolkit[asr]
+jiwer==4.0.0
