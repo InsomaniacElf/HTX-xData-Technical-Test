@@ -1,0 +1,7 @@
+FROM python:3.11-slim
+WORKDIR /workspace
+COPY asr-train/requirements-analysis.txt /tmp/requirements-analysis.txt
+RUN pip install --no-cache-dir -r /tmp/requirements-analysis.txt
+COPY asr-train /workspace/asr-train
+COPY asr /workspace/asr
+CMD ["python", "asr-train/prepare_metadata.py", "--help"]
