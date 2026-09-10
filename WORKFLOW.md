@@ -5,7 +5,7 @@ Commits record real milestones; dates and authorship are never manufactured.
 
 | Task / To Do | Status | Done / Evidence, Decisions and Next Action |
 | --- | --- | --- |
-| 2c: full TDK decoding | Running, final acceptance pending | 12 Azure shards submitted; 11 Running and 1 Queued at this check. Verify successful row counts and increasing throughput, not status alone. Existing committed CSV contains five clips. |
+| 2c: full TDK decoding | Running slowly, performance fix needed | 11 Running and 1 Queued. Logs show completed inference batches, with no tracebacks in sampled streams. Shard 0: 10 batches x32 clips in 1131.34 s, projecting ~17.84 h for its 18,168 clips if unchanged. This is attempted-batch throughput, not verified CSV coverage. Serial downloads dominate; previous 1.5-4 h estimate is unsupported. Preserve checkpoints before any restart. |
 | 2c: execution provenance | Open requirement gap | Azure fast harness calls Parakeet directly. Assignment requests API calls. Preserve source/model/preprocessing provenance and resolve API compliance before claiming completion. Batch-average duration is not measured per-request API latency. |
 | 2c: WER/CER | Scorer tested; full results pending | Added Unicode-aware row WER/CER and pooled metrics with coverage. Two edge-case tests pass. Existing five clips: WER 0.368421, CER 0.222615; not full-corpus results. Input inference CSV preserved. |
 | 2d: container code | Committed | Commit 2122a85 contains Dockerfile and asr-api Compose service. Compose validation passes. |
@@ -29,6 +29,11 @@ Azure GPU: finish healthy Task 2c work first; benchmark training before allocati
 Do not submit another large GPU run while current throughput/failures are unknown.
 Record measured script wall time separately from Azure queue, setup and training time.
 Historical task completion times are unknown unless supported by logs.
+
+Read-only monitoring script: test_docs/test/azure_task2c_fast/monitor_jobs.py.
+It checks statuses and streamed logs, writes monitor-latest.json and history,
+and flags repeated unchanged logs for review. It does not cancel/restart jobs,
+prove successful CSV coverage, or fix download bottlenecks automatically.
 
 ## Strategy Sources
 
