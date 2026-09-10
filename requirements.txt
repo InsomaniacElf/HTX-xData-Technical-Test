@@ -3,3 +3,6 @@ uvicorn
 python-multipart
 pandas
 requests
+librosa
+soundfile
+nemo_toolkit[asr]
