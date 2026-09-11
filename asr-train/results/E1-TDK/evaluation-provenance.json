@@ -1,0 +1,50 @@
+{
+  "rows": 218011,
+  "failed": 0,
+  "model_sha256": "8860f2759272a5585b7d8034492a15c2ee10ca68ff3db75698dea5a36e903e2d",
+  "shards": [
+    {
+      "index": 0,
+      "rows": 27252,
+      "csv_sha256": "345bab09989d490afef943dc6a816725ca85031b6f8a512afab296fc0c879b17"
+    },
+    {
+      "index": 1,
+      "rows": 27252,
+      "csv_sha256": "071e9e99e045eda5baa892abeb93dd0c2c4141022d83c4be9c8268b01970cc2e"
+    },
+    {
+      "index": 2,
+      "rows": 27252,
+      "csv_sha256": "257f5b87fadf6dfa0d23ce6b02e95bb9bff5040fe15a18e58ac2079a913e7f1c"
+    },
+    {
+      "index": 3,
+      "rows": 27251,
+      "csv_sha256": "5927992f635865148a97e3c99d59f989a219c6ef0080138c056c5d9edcb94d20"
+    },
+    {
+      "index": 4,
+      "rows": 27251,
+      "csv_sha256": "95ab2cd29284d04470e7c8191eacc6769a225c310f0a8a62fc6bb960f8ab8f95"
+    },
+    {
+      "index": 5,
+      "rows": 27251,
+      "csv_sha256": "7efbdbec7f729f32287cdd6ee82a888e28d864c2727b14d9cc0000dd27cea28a"
+    },
+    {
+      "index": 6,
+      "rows": 27251,
+      "csv_sha256": "ad4b0cfac31d782dd144346688917476f76fecdd1ef7da82ddf7d3f05fe89daa"
+    },
+    {
+      "index": 7,
+      "rows": 27251,
+      "csv_sha256": "8640cd8febc7511d54cf354335b1ae79f90f71af2c29c1ee7c3910696006b4ea"
+    }
+  ],
+  "audio": "verified_baseline_cache",
+  "output_sha256": "d2047109ebef9a555c271ea683a93ec92fb78b9437691d7630d63ad919d0fd63",
+  "baseline_sha256": "d661b075b2ed292e611e5e9354c7b472f71050dae716c9258529fd8ff873c2bf"
+}

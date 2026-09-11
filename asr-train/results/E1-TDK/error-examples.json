@@ -1,0 +1,183 @@
+{
+  "selection": "Largest row WER decreases/increases among references with at least five words; diagnostic, not representative",
+  "improvements": [
+    {
+      "file": "20220304--MvO7lR36lcQ--Ukraine vs Russia - Would You Die For Your Country ｜ TDK Podcast #75.TextGrid",
+      "start_time": "1911.678",
+      "end_time": "1913.579",
+      "text": "power game. I mean, it's a",
+      "generated_text": "Power gives you a little bit of a little bit of a little bit of a little bit of a little bit.",
+      "generated_text_ft": "Power games.",
+      "base_edits": 20,
+      "ft_edits": 5,
+      "reference_words": 6
+    },
+    {
+      "file": "20211216--H2lyrZQjTmo--Asking a Real Monk Difficult Questions (Ft. Venerable Shi You Wei) ｜ TDK #52.TextGrid",
+      "start_time": "109.47",
+      "end_time": "111.73",
+      "text": "shaved like that and then",
+      "generated_text": "But you're not going to be able to do it So I can shave like that and then just go.",
+      "generated_text_ft": "So I can shave like that and then just go back.",
+      "base_edits": 16,
+      "ft_edits": 7,
+      "reference_words": 5
+    },
+    {
+      "file": "20220117--TmRXZPQTNy0--How We Closed The Ozone Hole？! ｜ TDK #62.TextGrid",
+      "start_time": "715.748",
+      "end_time": "716.748",
+      "text": "A lot of people are",
+      "generated_text": "If you had to get a little bit more than a big buck.",
+      "generated_text_ft": "A lot we picked",
+      "base_edits": 12,
+      "ft_edits": 3,
+      "reference_words": 5
+    },
+    {
+      "file": "20220602--Y-VKMsaMW8g--Sexually Harassed By TeleHitch Driver？ ｜ TDK Podcast #100.TextGrid",
+      "start_time": "1286.878",
+      "end_time": "1289.559",
+      "text": "how do you pick up",
+      "generated_text": "How how how how did you reject yeah or how do you pick up?",
+      "generated_text_ft": "How do you pick up",
+      "base_edits": 9,
+      "ft_edits": 0,
+      "reference_words": 5
+    },
+    {
+      "file": "20240627--Wggu2MGXmvo--The Reality of being a CNA Presenter (ft. Steven Chia) ｜ #DailyKetchup EP237.TextGrid",
+      "start_time": "795.022",
+      "end_time": "797.703",
+      "text": "PIE, ECP, KPE, you know.",
+      "generated_text": "P I E, E C P K P. E, you know.",
+      "generated_text_ft": "PIE, ECP, KPE, you know.",
+      "base_edits": 9,
+      "ft_edits": 0,
+      "reference_words": 5
+    },
+    {
+      "file": "20240819--nOUX-Sv6EQI--Singapore Was THIS Close To a Terrorist Attack？？ ｜ #DailyKetchup EP342.TextGrid",
+      "start_time": "1240.54",
+      "end_time": "1242.481",
+      "text": "The rest of us gone",
+      "generated_text": "The rest of us gonna be a little bit more than a little bit.",
+      "generated_text_ft": "The rest of us gonna",
+      "base_edits": 10,
+      "ft_edits": 1,
+      "reference_words": 5
+    },
+    {
+      "file": "20240129--0zp8DCB8Srs--Is She Interested Or Just FRIENDLY？？ ｜ #DailyKetchup EP279.TextGrid",
+      "start_time": "1816.756",
+      "end_time": "1818.858",
+      "text": "But I think there's a difference",
+      "generated_text": "Yeah, no, no, I'm not sure if you're not going to be able to do that.",
+      "generated_text_ft": "Yeah, no, no, no, no, no.",
+      "base_edits": 16,
+      "ft_edits": 6,
+      "reference_words": 6
+    },
+    {
+      "file": "20220812--FM7QliCxV4s--SEXY AF Chai Chee Marketing Campaign goes VIRAL ｜ TDK Podcast #122.TextGrid",
+      "start_time": "1492.658",
+      "end_time": "1493.919",
+      "text": "model on TikTok also. she's",
+      "generated_text": "Model on TikTok, so she's a little bit more than a little bit.",
+      "generated_text_ft": "model on TikTok. So she's",
+      "base_edits": 9,
+      "ft_edits": 1,
+      "reference_words": 5
+    }
+  ],
+  "regressions": [
+    {
+      "file": "20240513--XqLawo81ozA--Asian Women Answer Men's INAPPROPRIATE QUESTIONS ｜ #DailyKetchup EP314.TextGrid",
+      "start_time": "1466.493",
+      "end_time": "1469.215",
+      "text": "I think flirt, because you like that.",
+      "generated_text": "I think because you let it",
+      "generated_text_ft": "I think I'm going to get a little bit of a little bit of a little bit.",
+      "base_edits": 3,
+      "ft_edits": 15,
+      "reference_words": 7
+    },
+    {
+      "file": "20221029--1_pLHLLh9X8--Sharing Our Scariest Ghost Encounters ｜ TDK Podcast #146.TextGrid",
+      "start_time": "1212.208",
+      "end_time": "1217.155",
+      "text": "The reason why it's called a",
+      "generated_text": "The reason why it's called a Serbian film sorry for boring. The reason why",
+      "generated_text_ft": "The reason why it's called a Serbian film, sorry for boring. No, no. I'll get to the next point. The reason why",
+      "base_edits": 8,
+      "ft_edits": 16,
+      "reference_words": 6
+    },
+    {
+      "file": "20240115--j9Lfg-Nx2ag--Love, Bonito Almost Ruined My Marriage (Ft. Rachel Lim) ｜ #DailyKetchup EP274.TextGrid",
+      "start_time": "1590.891",
+      "end_time": "1593.754",
+      "text": "And it's written by this palliative nurse",
+      "generated_text": "And it's written by this palliative ness.",
+      "generated_text_ft": "And it's written by this palliativeness in the world. Oh god, I read about this.",
+      "base_edits": 1,
+      "ft_edits": 10,
+      "reference_words": 7
+    },
+    {
+      "file": "20210713--LNNCTmru0ds--NDP Song Review, Conor Breaks A Leg and Billionaires Race To Space ｜ The Daily Ketchup  Podcast.TextGrid",
+      "start_time": "485.81",
+      "end_time": "489.193",
+      "text": "shin breaking one, you know. Anderson Silva.",
+      "generated_text": "And the San Silva.",
+      "generated_text_ft": "Shinbreaking line, you know, he was MAD in the Shinbreaking and the Saint Silver like what?",
+      "base_edits": 6,
+      "ft_edits": 15,
+      "reference_words": 7
+    },
+    {
+      "file": "20231123--S6ynOPWi6aE--Uncovering the Secrets Of The US EMBASSY!!! (ft Ambassador Jonathan Kaplan) ｜ #DailyKetchup EP261.TextGrid",
+      "start_time": "1479.887",
+      "end_time": "1481.609",
+      "text": "a good excuse to have",
+      "generated_text": "Good excuse to go.",
+      "generated_text_ft": "Good excuse to not be able to take out account.",
+      "base_edits": 2,
+      "ft_edits": 8,
+      "reference_words": 5
+    },
+    {
+      "file": "20221029--1_pLHLLh9X8--Sharing Our Scariest Ghost Encounters ｜ TDK Podcast #146.TextGrid",
+      "start_time": "365.962",
+      "end_time": "367.422",
+      "text": "of a very different story.",
+      "generated_text": "I've a very different story.",
+      "generated_text_ft": "I have a very different storehead. I know, I know.",
+      "base_edits": 1,
+      "ft_edits": 7,
+      "reference_words": 5
+    },
+    {
+      "file": "20220630--n7pKe28BJmM--Should You Marry Someone You've Dated For A Month？ ｜ TDK Podcast #109.TextGrid",
+      "start_time": "1595.066",
+      "end_time": "1597.587",
+      "text": "If you watch one minute,",
+      "generated_text": "If you want one minute.",
+      "generated_text_ft": "Just go and never tag anybody. If you want one minute",
+      "base_edits": 1,
+      "ft_edits": 7,
+      "reference_words": 5
+    },
+    {
+      "file": "20220210--aOO0XR4Oc5c--What Really Happened On Set？ (Ah Girls Go Army) ｜ TDK #69.TextGrid",
+      "start_time": "237.541",
+      "end_time": "239.421",
+      "text": "I don't think it's a",
+      "generated_text": "I don't think it's...",
+      "generated_text_ft": "I don't think he's a hum. I don't think he has.",
+      "base_edits": 1,
+      "ft_edits": 7,
+      "reference_words": 5
+    }
+  ]
+}

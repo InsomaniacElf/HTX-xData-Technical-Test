@@ -1,0 +1,15 @@
+{
+  "elapsed_training_seconds": 4382.742126025,
+  "optimizer_steps": 1200,
+  "best_checkpoint": "parakeet-step=1200-val_wer=0.2654.ckpt",
+  "best_validation_wer": 0.2654019296169281,
+  "peak_cuda_memory_bytes": 35599680512,
+  "gpu": "NVIDIA A100 80GB PCIe",
+  "status": "completed",
+  "baseline_validation": [
+    {
+      "global_step": 0.0,
+      "val_wer": 0.3220418393611908
+    }
+  ]
+}

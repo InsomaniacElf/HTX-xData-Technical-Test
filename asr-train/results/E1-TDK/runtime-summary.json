@@ -1,0 +1,16 @@
+{
+  "base": {
+    "shards": 8,
+    "sum_seconds": 13525.072913684,
+    "min_seconds": 1556.2666045820001,
+    "max_seconds": 2121.877192038,
+    "interpretation": "Sum of worker processing time, NOT wall-clock project time, cloud billed time or total preparation time."
+  },
+  "ft": {
+    "shards": 8,
+    "sum_seconds": 3853.864643442,
+    "min_seconds": 473.44784340699994,
+    "max_seconds": 491.0958220500006,
+    "interpretation": "Sum of worker processing time, NOT wall-clock project time, cloud billed time or total preparation time."
+  }
+}

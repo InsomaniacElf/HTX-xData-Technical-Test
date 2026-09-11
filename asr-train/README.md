@@ -3,9 +3,16 @@
 The executed Task 3a notebook records full-parameter Parakeet fine-tuning on
 10.046 hours of non-TDK audio with 2.023 hours of video-disjoint validation.
 Training completed 1,200 updates in 73.05 minutes. Native validation WER improved
-from 0.322042 to 0.265402; the best checkpoint is update 1,200. This is not yet a
-full-TDK performance claim. Task 3b's full evaluation and model artifact delivery
-remain pending. Both required notebooks are supplied alongside Python helpers.
+from 0.322042 to 0.265402; the best checkpoint is update 1,200. Full-TDK evaluation
+is complete: WER 24.4272% -> 21.3120%, CER 18.1281% -> 15.8369%, 218,011 paired
+rows and no failed predictions. Native validation WER uses NeMo's metric and is
+not directly comparable to the explicitly normalized TDK metric. Both executed
+notebooks and Python helpers are supplied. See results/E1 and results/E1-TDK.
+
+Run `python download_artifacts.py --model` from the repository root to restore
+the CSV and selected model. The model is stored at
+`asr-train/models/parakeet-tdt-0.6b-v3-ycsep.nemo`. CPU replay requires only the CSV,
+not the model. Use the root README's analysis Docker and `run_notebooks.py`.
 
 Run the dependency-free audit from the repository root:
 
@@ -25,10 +32,22 @@ docker build -f asr-train/Dockerfile.analysis -t htx-analysis .
 docker run --rm -v "${PWD}:/workspace" htx-analysis python asr-train/prepare_metadata.py --csv /workspace/PATH/YCSEP_static.csv --output /workspace/test_docs/test/runtime/metadata-audit
 ```
 
-Set YCSEP_CSV and optionally YCSEP_AUDIT before executing ycsep-train-3a.ipynb.
-The notebook records assumptions, selection policy, actual metrics and curve
-interpretation. Set YCSEP_EXPERIMENT to a downloaded completed experiment to
-inspect it without retraining; otherwise its training cell starts a GPU run.
+Default notebook execution replays the packaged E1 evidence without training.
+For a new GPU run, build `asr-train/Dockerfile`, use `--gpus all` and mount this
+repository at `/workspace`. Set `RUN_TRAINING=1`, `YCSEP_CSV` to the source CSV,
+and `YCSEP_EXPERIMENT` to a fresh output directory before executing Task 3a.
+Optionally set YCSEP_AUDIT, YCSEP_SELECTION and YCSEP_AUDIO to scratch folders.
+The notebook prepares the deterministic split/audio and calls the training helper.
+FFmpeg and dependencies are installed by that Dockerfile. Network access is
+required to retrieve source audio and the base model. No denoising or neural
+quality filtering was used in E1; difficult-but-valid speech was not discarded
+based on base-model WER.
+
+For new Task 3b inference, set `RUN_TDK_INFERENCE=1`, `YCSEP_MODEL` to the restored
+model and optionally `TDK_CACHE` to the verified baseline MP3 cache. Use a fresh
+TDK_EVALUATION output directory. Without a cache, source WAV ranges are recovered
+again, so report this execution path and do not claim original cached-byte identity.
+The default replay recomputes full paired WER/CER and 2,000 video-bootstrap draws.
 
 Freeze a bounded, channel-balanced pilot and prepare its audio on CPU:
 

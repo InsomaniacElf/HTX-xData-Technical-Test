@@ -1,0 +1,12 @@
+{
+  "base_input_sha256": "db84262ef945b874f1d820dc8489df10d7d6ad85674af1ab5a4ed5a9625d8a5b",
+  "model_sha256": "8860f2759272a5585b7d8034492a15c2ee10ca68ff3db75698dea5a36e903e2d",
+  "shard_index": 0,
+  "num_shards": 1,
+  "audio": "verified_baseline_cache",
+  "checkpoint_selection": "Frozen before TDK evaluation; no TDK model selection",
+  "rows": 27251,
+  "failed": 0,
+  "elapsed_seconds": 479.4863539849998,
+  "source_csv_sha256": "8062e23c112463e0894f7ae11758bf2ab2c3542de6c9094eafbd8dd27ea20350"
+}

@@ -1,0 +1,74 @@
+{
+  "source_sha256": "a76ea7653b2025bb934e14ecba1c6e5aebdfdb836af6264fb870b7b03316ce83",
+  "seed": 2026,
+  "validation_fraction": 0.1,
+  "rows": 757072,
+  "channel_rows": {
+    "Historyogi": 16358,
+    "NOTG": 65155,
+    "Randomly_Relatable_SG": 26005,
+    "The_Daily_Ketchup_Podcast": 218011,
+    "Yah_Lah_BUT": 347736,
+    "YouGotWatch": 83807
+  },
+  "channel_segment_hours": {
+    "Historyogi": 15.933716666666726,
+    "NOTG": 62.539260555555956,
+    "Randomly_Relatable_SG": 17.196140277777737,
+    "The_Daily_Ketchup_Podcast": 172.91072749999165,
+    "Yah_Lah_BUT": 288.31827722219975,
+    "YouGotWatch": 63.39574194444726
+  },
+  "channel_videos": {
+    "Historyogi": 43,
+    "NOTG": 134,
+    "Randomly_Relatable_SG": 82,
+    "The_Daily_Ketchup_Podcast": 367,
+    "Yah_Lah_BUT": 372,
+    "YouGotWatch": 314
+  },
+  "duration_buckets": {
+    "5-10": 107179,
+    "1-5": 397496,
+    "0.3-0.5": 47091,
+    "0.5-1": 102977,
+    "<0.3": 74070,
+    "10-15": 21228,
+    "15-20": 4976,
+    ">=20": 2055
+  },
+  "non_tdk_flags": {
+    "short": 81954,
+    "dense_text": 23853,
+    "long": 1357,
+    "sparse_text": 522,
+    "filler_only": 2484,
+    "repeated_tokens": 201,
+    "extreme_sparse": 39,
+    "repeated_characters": 2
+  },
+  "exclusions": {
+    "pilot_duration_outside_0.3_to_20": 51524,
+    "tdk_holdout": 218011
+  },
+  "split_rows": {
+    "train": 433320,
+    "validation": 54217
+  },
+  "split_segment_hours": {
+    "train": 387.02510888887167,
+    "validation": 48.38512694444511
+  },
+  "split_videos": {
+    "train": 852,
+    "validation": 93
+  },
+  "elapsed_seconds": 71.39668439600064,
+  "limitations": [
+    "Metadata overlap does not establish acoustic overlap",
+    "Segment hours may double-count overlapping speech",
+    "Video-disjoint is not necessarily speaker-disjoint",
+    "URL deduplication cannot detect re-encoded duplicate audio",
+    "Candidates are not downloaded, audio-validated, or final NeMo manifests"
+  ]
+}
