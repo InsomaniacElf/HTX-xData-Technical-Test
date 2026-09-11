@@ -43,6 +43,12 @@ required to retrieve source audio and the base model. No denoising or neural
 quality filtering was used in E1; difficult-but-valid speech was not discarded
 based on base-model WER.
 
+The training image's default entry point is the training CLI. Use
+`--entrypoint python` when running another script or a notebook executor in it.
+E1's batch settings used approximately 35.6 GB of allocated GPU memory, so use
+a suitably sized GPU (the measured run used an A100 80 GB); a small laptop GPU
+is intended for inference, not this unchanged training configuration.
+
 For new Task 3b inference, set `RUN_TDK_INFERENCE=1`, `YCSEP_MODEL` to the restored
 model and optionally `TDK_CACHE` to the verified baseline MP3 cache. Use a fresh
 TDK_EVALUATION output directory. Without a cache, source WAV ranges are recovered
