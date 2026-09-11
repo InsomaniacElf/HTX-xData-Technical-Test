@@ -59,6 +59,10 @@ def representatives(group):
     return chosen
 
 
+def unscorable_short(row, error):
+    return row["duration"] < .25 and error.startswith("ValueError: Insufficient or invalid audio")
+
+
 _local = threading.local()
 
 
@@ -148,7 +152,8 @@ def run(args):
     rows = {row["row"]: row for key in keys for row in representatives(groups[key])}
     with sqlite3.connect(output / "embeddings.sqlite3") as db:
         db.execute("CREATE TABLE IF NOT EXISTS embeddings (row_id INTEGER PRIMARY KEY, vector BLOB, source TEXT, error TEXT)")
-        done = {r[0] for r in db.execute("SELECT row_id FROM embeddings WHERE error=''")}
+        done = {index for index, error in db.execute("SELECT row_id, error FROM embeddings")
+                if not error or (index in rows and unscorable_short(rows[index], error))}
         pending = [r for index, r in rows.items() if index not in done]
         completed, failures = 0, 0
         with ThreadPoolExecutor(max_workers=args.workers) as pool:
@@ -174,7 +179,7 @@ def run(args):
                     completed += 1
                 print(json.dumps({"processed_this_run": completed, "pending_at_start": len(pending),
                     "failures": failures, "elapsed_seconds": round(time.perf_counter()-started, 1)}), flush=True)
-        scores = []
+        scores, excluded_short, retryable_failures = [], [], []
         for key in keys:
             similarities, failed = [], []
             selected = representatives(groups[key])
@@ -182,6 +187,10 @@ def run(args):
                 record = db.execute("SELECT vector, error FROM embeddings WHERE row_id=?", (row["row"],)).fetchone()
                 if record is None or record[1]:
                     failed.append(row["row"])
+                    if record and unscorable_short(row, record[1]):
+                        excluded_short.append({"source_row": row["row"], "duration": row["duration"]})
+                    else:
+                        retryable_failures.append(row["row"])
                 else:
                     similarities.append(float(np.frombuffer(record[0], dtype="float32") @ reference))
             scores.append({"channel": key[0], "file": key[1], "speaker": key[2],
@@ -194,12 +203,14 @@ def run(args):
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
     report = {"groups_total": len(groups), "groups_processed": len(keys), "representative_clips": len(rows),
         "failed_groups": sum(bool(r["failed_rows"]) for r in scores), "invalid_timestamp_rows": invalid,
+        "unscorable_groups": sum(r["median_similarity"] is None for r in scores),
+        "excluded_short_clips": excluded_short, "retryable_failures": len(retryable_failures),
         "elapsed_seconds": time.perf_counter()-started,
         "status": "retrieval_scores_only", "threshold_selected": False,
         "boundary_source": "YCSEP annotations; not independently verified"}
     (output / "retrieval-result.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps(report, indent=2), flush=True)
-    if report["failed_groups"]:
+    if retryable_failures:
         raise RuntimeError("Some representative clips failed; inspect the journal and resume")
 
 
