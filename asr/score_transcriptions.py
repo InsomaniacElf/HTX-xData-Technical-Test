@@ -45,11 +45,15 @@ def score(source, output, prediction="generated_text", suffix="base", error_colu
                 counts["failed"] += 1
             else:
                 ref, hyp = normalize(row["text"]), normalize(row[prediction])
-                words = process_words(ref, hyp)
-                chars = process_characters(ref.replace(" ", ""), hyp.replace(" ", ""))
-                we = words.substitutions + words.deletions + words.insertions
-                ce = chars.substitutions + chars.deletions + chars.insertions
                 nw, nc = len(ref.split()), len(ref.replace(" ", ""))
+                # JiWER 3.1 rejects empty references; every hypothesis unit is an insertion.
+                if nw:
+                    words = process_words(ref, hyp)
+                    chars = process_characters(ref.replace(" ", ""), hyp.replace(" ", ""))
+                    we = words.substitutions + words.deletions + words.insertions
+                    ce = chars.substitutions + chars.deletions + chars.insertions
+                else:
+                    we, ce = len(hyp.split()), len(hyp.replace(" ", ""))
                 row[extra[0]] = we / nw if nw else ""
                 row[extra[1]] = ce / nc if nc else ""
                 counts["scored"] += 1
