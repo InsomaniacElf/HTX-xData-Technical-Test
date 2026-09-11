@@ -24,6 +24,21 @@ docker run --rm -v "${PWD}:/workspace" htx-analysis python asr-train/prepare_met
 Set YCSEP_CSV and optionally YCSEP_AUDIT before executing ycsep-train-3a.ipynb.
 The notebook records assumptions, selection policy and pending GPU work.
 
+Freeze a bounded, channel-balanced pilot and prepare its audio on CPU:
+
+```powershell
+python asr-train/select_pilot.py --audit test_docs/test/runtime/metadata-audit --output test_docs/test/runtime/pilot-selection --train-hours 10 --validation-hours 2
+python asr-train/prepare_audio.py --selection test_docs/test/runtime/pilot-selection/validation-selected.jsonl --output test_docs/test/runtime/pilot-audio --split validation --workers 16
+python asr-train/prepare_audio.py --selection test_docs/test/runtime/pilot-selection/train-selected.jsonl --output test_docs/test/runtime/pilot-audio --split train --workers 16
+```
+
+Audio preparation requires FFmpeg on PATH and requests. It preserves transcripts,
+checks decoded duration, sample rate, channels and nonzero waveform, records failed
+selections, and reuses valid local WAVs on restart. The selected 2,133 validation
+clips passed these checks in 1,046.05 seconds on the development machine. Audio
+validity is not proof of transcription accuracy. Training and validation retain
+disjoint source videos; TDK is excluded from both.
+
 Score existing base-model output without downloading audio or using a GPU:
 
 ```powershell
