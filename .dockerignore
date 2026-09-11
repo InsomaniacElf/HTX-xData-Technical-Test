@@ -7,3 +7,10 @@ __pycache__
 test_docs
 asr/audio_cache
 asr/*.resume.sqlite3
+.azure
+.azurecli_tmp
+secrect.txt
+secret.txt
+.env
+.env.*
+speaker_reference_1min.wav

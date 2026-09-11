@@ -1,7 +1,11 @@
-# Task 3: Current Preparation Milestone
+# Task 3: Fine-Tuning and Evaluation
 
-This directory currently implements CPU metadata auditing and contains the Task
-3a notebook groundwork. Fine-tuning has not been completed by these files.
+The executed Task 3a notebook records full-parameter Parakeet fine-tuning on
+10.046 hours of non-TDK audio with 2.023 hours of video-disjoint validation.
+Training completed 1,200 updates in 73.05 minutes. Native validation WER improved
+from 0.322042 to 0.265402; the best checkpoint is update 1,200. This is not yet a
+full-TDK performance claim. Task 3b's full evaluation and model artifact delivery
+remain pending. Both required notebooks are supplied alongside Python helpers.
 
 Run the dependency-free audit from the repository root:
 
@@ -22,7 +26,9 @@ docker run --rm -v "${PWD}:/workspace" htx-analysis python asr-train/prepare_met
 ```
 
 Set YCSEP_CSV and optionally YCSEP_AUDIT before executing ycsep-train-3a.ipynb.
-The notebook records assumptions, selection policy and pending GPU work.
+The notebook records assumptions, selection policy, actual metrics and curve
+interpretation. Set YCSEP_EXPERIMENT to a downloaded completed experiment to
+inspect it without retraining; otherwise its training cell starts a GPU run.
 
 Freeze a bounded, channel-balanced pilot and prepare its audio on CPU:
 

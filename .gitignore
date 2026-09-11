@@ -241,3 +241,11 @@ test_docs/
 
 speaker_reference_1min.wav
 speaker-detection/detection-report.json
+
+# Local cloud state and credentials: never submission artifacts
+/.azure/
+/.azurecli_tmp/
+/secrect.txt
+/secret.txt
+.env.*
+!.env.example
