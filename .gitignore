@@ -220,3 +220,22 @@ __marimo__/
 # Test documentation
 test_docs/
 
+# Local verification and working notes (not submission deliverables)
+/WORKFLOW.md
+/asr/API_EXECUTION.md
+/asr/DOCKER_VALIDATION.md
+/asr/test_*.py
+/asr-train/test_*.py
+/asr-train/EDA_FINDINGS.md
+/speaker-detection/PLAN.md
+/speaker-detection/test_*.py
+
+# Intermediate audio, journals, and experiment caches
+*.sqlite3
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
+/asr/audio_cache/
+*.run.json
+*.csv.tmp
+

@@ -7,7 +7,6 @@ Run the dependency-free audit from the repository root:
 
 ```powershell
 python asr-train/prepare_metadata.py --csv PATH/YCSEP_static.csv --output test_docs/test/runtime/metadata-audit
-python -m unittest discover -s asr-train -p "test_*.py"
 ```
 
 It creates data_quality_report.csv, video_overlap.csv, audit.json and deterministic
@@ -49,4 +48,5 @@ Data curation is a training choice. Keep the validation distribution fixed and
 document objective invalid-audio exclusions. Hash grouping gives video-disjoint,
 not speaker-disjoint, evaluation. TDK is final test only.
 
-See ../WORKFLOW.md for evidence and next actions.
+Working notes, verification scripts and intermediate artifacts are kept locally
+and excluded from the submission repository.
