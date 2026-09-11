@@ -249,3 +249,8 @@ speaker-detection/detection-report.json
 /secret.txt
 .env.*
 !.env.example
+
+# Large deliverables restored from checksum-verified public release assets
+/asr/TDK_subset.csv
+/asr-train/models/
+*.restore

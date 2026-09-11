@@ -1,0 +1,47 @@
+{
+  "release": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/tag/submission-e1-20260912",
+  "artifacts": [
+    {
+      "kind": "dataset",
+      "path": "asr/TDK_subset.csv",
+      "bytes": 143715984,
+      "sha256": "941858227a7d15f115b81c2542dfedee8b67ca7de1385665470869ab5917e6d0",
+      "encoding": "gzip",
+      "parts": [
+        {
+          "name": "TDK_subset.csv.gz",
+          "url": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/download/submission-e1-20260912/TDK_subset.csv.gz",
+          "sha256": "348692d1d8ce054121b6ecbe440d85424eae5614f228dca5d0923b082568cfbb",
+          "bytes": 21711522
+        }
+      ]
+    },
+    {
+      "kind": "model",
+      "path": "asr-train/models/parakeet-tdt-0.6b-v3-ycsep.nemo",
+      "bytes": 2509322240,
+      "sha256": "8860f2759272a5585b7d8034492a15c2ee10ca68ff3db75698dea5a36e903e2d",
+      "encoding": "concatenated",
+      "parts": [
+        {
+          "name": "parakeet-tdt-0.6b-v3-ycsep.nemo.part00",
+          "url": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/download/submission-e1-20260912/parakeet-tdt-0.6b-v3-ycsep.nemo.part00",
+          "sha256": "3ad89b519da3198a27a7ef70039eba0d82f083093f3d811236e201bc4f118c03",
+          "bytes": 950000000
+        },
+        {
+          "name": "parakeet-tdt-0.6b-v3-ycsep.nemo.part01",
+          "url": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/download/submission-e1-20260912/parakeet-tdt-0.6b-v3-ycsep.nemo.part01",
+          "sha256": "75be50c4a9a61ac0321b9475fca20a35b80fb4b0fe818a382792566b5bc04d8c",
+          "bytes": 950000000
+        },
+        {
+          "name": "parakeet-tdt-0.6b-v3-ycsep.nemo.part02",
+          "url": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/download/submission-e1-20260912/parakeet-tdt-0.6b-v3-ycsep.nemo.part02",
+          "sha256": "b4556568beb87f9a7f7884f80940f2c51ac9f74346a2b6ee121e665b990e8a7e",
+          "bytes": 609322240
+        }
+      ]
+    }
+  ]
+}

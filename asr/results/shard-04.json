@@ -1,0 +1,25 @@
+{
+  "rows_in_output": 27251,
+  "successful_transcriptions": 27251,
+  "failed_transcriptions": 0,
+  "corpus_wer_successful_rows": 0.24447394838250056,
+  "processed_this_run": 27251,
+  "elapsed_seconds": 2121.877192038,
+  "scope": "tdk_shard_4_of_8",
+  "execution_path": "multipart_http_api",
+  "api_url": "http://127.0.0.1:8001/asr",
+  "shard_index": 4,
+  "num_shards": 8,
+  "cache_only": true,
+  "assumption": "WER is computed after lowercasing and simple word-token normalization.",
+  "startup_seconds": 55.142576684999995,
+  "source_csv_sha256": "a76ea7653b2025bb934e14ecba1c6e5aebdfdb836af6264fb870b7b03316ce83",
+  "total_seconds": 2180.9871871739997,
+  "package_versions": {
+    "torch": "2.7.1+cu126",
+    "nemo_toolkit": "2.5.0",
+    "fastapi": "0.115.12",
+    "librosa": "0.11.0",
+    "requests": "2.32.4"
+  }
+}
