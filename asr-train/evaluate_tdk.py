@@ -25,6 +25,17 @@ def digest(path):
         return hashlib.file_digest(handle, "sha256").hexdigest()
 
 
+def baseline_identity(rows):
+    # Derived comparison columns do not change the underlying evaluation inputs.
+    derived = {"generated_text_ft", "asr_error_ft", "wer_ft", "cer_ft", "wer_base", "cer_base"}
+    checksum = hashlib.sha256()
+    for row in rows:
+        checksum.update(json.dumps({k: v for k, v in row.items() if k not in derived},
+                                   sort_keys=True, ensure_ascii=False).encode())
+        checksum.update(b"\n")
+    return checksum.hexdigest()
+
+
 def load_base(path, index, count):
     if count < 1 or not 0 <= index < count:
         raise ValueError("Invalid shard configuration")
@@ -73,7 +84,7 @@ def evaluate(base, model, output, batch_size=8, workers=8, shard_index=0,
         raise ValueError("Empty evaluation shard")
     root = Path(output)
     root.mkdir(parents=True, exist_ok=True)
-    config = {"base_sha256": digest(base), "model_sha256": digest(model),
+    config = {"base_input_sha256": baseline_identity(rows), "model_sha256": digest(model),
               "shard_index": shard_index, "num_shards": num_shards,
               "audio": "verified_baseline_cache" if cache else "source_wav_reencoded_mp3",
               "checkpoint_selection": "Frozen before TDK evaluation; no TDK model selection"}
@@ -126,7 +137,8 @@ def evaluate(base, model, output, batch_size=8, workers=8, shard_index=0,
                 failures += bool(error)
                 writer.writerow(dict(row, generated_text_ft=text, asr_error_ft=error))
         os.replace(temporary, destination)
-    result = dict(config, rows=len(rows), failed=failures, elapsed_seconds=time.perf_counter()-started)
+    result = dict(config, rows=len(rows), failed=failures, elapsed_seconds=time.perf_counter()-started,
+                  source_csv_sha256=digest(base))
     (root / "evaluation-result.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
     if failures:
         raise RuntimeError(f"{failures} evaluation rows failed; successful predictions are preserved")
