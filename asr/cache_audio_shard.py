@@ -6,19 +6,30 @@ import json
 import tarfile
 import tempfile
 import time
+import subprocess
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 from ycsep_decode import audio_cache_name, download_audio, load_tdk_rows, row_key
+from wav_source import clip_wav
 
 
-def fetch(row, retries):
+def fetch(row, retries, source_mode="clip-service"):
     for attempt in range(retries + 1):
         try:
-            with tempfile.TemporaryFile() as handle:
-                source = download_audio(row, handle, None)
-                handle.seek(0)
-                payload = handle.read()
+            if source_mode == "source-wav":
+                wav = clip_wav(row["file"], float(row["start_time"]), float(row["end_time"]))
+                encoded = subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-threads", "1",
+                    "-i", "pipe:0", "-codec:a", "libmp3lame", "-b:a", "128k", "-f", "mp3", "pipe:1"],
+                    input=wav, capture_output=True, check=True, timeout=60)
+                payload, source = encoded.stdout, "ycsep_source_wav_pcm_to_mp3"
+                if not payload:
+                    raise ValueError("MP3 encoding produced no data")
+            else:
+                with tempfile.TemporaryFile() as handle:
+                    source = download_audio(row, handle, None)
+                    handle.seek(0)
+                    payload = handle.read()
             return payload, source, ""
         except Exception as exc:
             error = type(exc).__name__
@@ -37,7 +48,7 @@ def stage(args):
             (output / "sources.jsonl").open("w", encoding="utf-8") as manifest, \
             ThreadPoolExecutor(max_workers=args.workers) as pool:
         for offset in range(0, len(rows), args.workers * 4):
-            futures = {pool.submit(fetch, row, args.retries): row
+            futures = {pool.submit(fetch, row, args.retries, args.source_mode): row
                        for row in rows[offset:offset + args.workers * 4]}
             for future in as_completed(futures):
                 row = futures[future]
@@ -57,6 +68,9 @@ def stage(args):
             print(json.dumps({"processed": min(offset + args.workers * 4, len(rows)),
                 "total": len(rows), "failures": failures,
                 "elapsed_seconds": round(time.perf_counter() - started, 1)}), flush=True)
+            processed = min(offset + args.workers * 4, len(rows))
+            if processed >= 64 and failures / processed > .9:
+                raise RuntimeError("More than 90% downloads failed; aborting to avoid an error-only run")
     result = {"rows": len(rows), "failures": failures, "sources": sources,
               "shard_index": args.shard_index, "num_shards": args.num_shards,
               "elapsed_seconds": time.perf_counter() - started}
@@ -99,6 +113,7 @@ if __name__ == "__main__":
     parser.add_argument("--workers", type=int, default=32)
     parser.add_argument("--retries", type=int, default=3)
     parser.add_argument("--limit", type=int, default=0)
+    parser.add_argument("--source-mode", choices=["clip-service", "source-wav"], default="clip-service")
     args = parser.parse_args()
     if args.workers < 1 or args.retries < 0 or args.limit < 0:
         parser.error("Invalid workers, retries, or limit")
