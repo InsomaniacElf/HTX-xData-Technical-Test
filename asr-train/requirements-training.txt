@@ -1,0 +1,4 @@
+# NeMo 2.5 TDT training kernel compatibility; inference alone does not test this.
+numba==0.61.2
+llvmlite==0.44.0
+numba-cuda==0.30.4

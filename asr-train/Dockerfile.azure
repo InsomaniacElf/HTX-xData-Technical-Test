@@ -1,0 +1,13 @@
+FROM pytorch/pytorch:2.7.1-cuda12.6-cudnn9-devel
+WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1 \
+    NUMBA_CUDA_USE_NVIDIA_BINDING=0 PYTHONFAULTHANDLER=1
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential git ffmpeg libsndfile1 \
+    && rm -rf /var/lib/apt/lists/*
+COPY requirements.txt /app/requirements.txt
+RUN python -m pip install --upgrade pip && python -m pip install -r /app/requirements.txt
+COPY asr-train/requirements-training.txt asr-train/requirements-analysis.txt /app/
+RUN python -m pip install -r /app/requirements-training.txt -r /app/requirements-analysis.txt \
+    && python -m pip check
+COPY asr-train /app/asr-train
+COPY asr /app/asr

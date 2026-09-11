@@ -12,11 +12,15 @@ import tempfile
 import threading
 import time
 import wave
+import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from urllib.parse import quote, urlencode
 
 import requests
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "asr"))
+from wav_source import clip_wav
 
 _local = threading.local()
 
@@ -39,7 +43,7 @@ def validate(path, expected):
     return duration
 
 
-def fetch(row, root, ffmpeg):
+def fetch(row, root, ffmpeg, source_mode="source-wav"):
     if row["channel"] == "The_Daily_Ketchup_Podcast":
         raise ValueError("TDK cannot enter training or validation")
     key = hashlib.sha256(json.dumps({k: row[k] for k in
@@ -49,7 +53,8 @@ def fetch(row, root, ffmpeg):
     if destination.exists():
         try:
             duration = validate(destination, row["duration"])
-            return dict(row, audio_filepath=relative, duration=duration), None
+            return dict(row, audio_filepath=relative, duration=duration,
+                        resolved_audio_source="validated_existing_wav"), None
         except (ValueError, wave.Error, EOFError):
             pass
     original = "https://a3s.fi/swift/v1/YCSEP_v2/" + quote(row["file"].removesuffix(".TextGrid") + ".wav")
@@ -57,33 +62,37 @@ def fetch(row, root, ffmpeg):
         "start": f"{float(row['start_time']):.3f}", "end": f"{float(row['end_time']):.3f}", "fmt": "mp3"})
     errors = []
     for attempt in range(2):
-        for url in (row["audio"], fallback):
+        for url in ([None] if source_mode == "source-wav" else [row["audio"], fallback]):
             try:
                 with tempfile.TemporaryDirectory(dir=root) as folder:
                     raw, wav = Path(folder) / "input.mp3", Path(folder) / "output.wav"
-                    with session().get(url, timeout=(10, 45), stream=True) as response:
-                        response.raise_for_status()
-                        with raw.open("wb") as handle:
-                            size = 0
-                            for block in response.iter_content(65536):
-                                size += len(block)
-                                if size > 64 * 1024 * 1024:
-                                    raise ValueError("Audio exceeds 64 MiB")
-                                handle.write(block)
+                    if url is None:
+                        raw.write_bytes(clip_wav(row["file"], float(row["start_time"]), float(row["end_time"])))
+                    else:
+                        with session().get(url, timeout=(10, 45), stream=True) as response:
+                            response.raise_for_status()
+                            with raw.open("wb") as handle:
+                                size = 0
+                                for block in response.iter_content(65536):
+                                    size += len(block)
+                                    if size > 64 * 1024 * 1024:
+                                        raise ValueError("Audio exceeds 64 MiB")
+                                    handle.write(block)
                     subprocess.run([ffmpeg, "-nostdin", "-v", "error", "-threads", "1", "-y",
                         "-i", str(raw), "-ac", "1", "-ar", "16000", "-c:a", "pcm_s16le", str(wav)],
                         check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, timeout=60)
                     duration = validate(wav, row["duration"])
                     wav.replace(destination)
                 return dict(row, audio_filepath=relative, duration=duration,
-                            resolved_audio_source="csv_audio" if url == row["audio"] else "ycsep_v2_clip"), None
+                            resolved_audio_source="ycsep_source_wav_range" if url is None else
+                                "csv_audio" if url == row["audio"] else "ycsep_v2_clip"), None
             except (requests.RequestException, subprocess.SubprocessError, ValueError, OSError, wave.Error, EOFError) as exc:
                 errors.append(type(exc).__name__)
         time.sleep(attempt + 1)
     return row, {"source_row": row["source_row"], "errors": errors}
 
 
-def prepare(selection, output, split, workers, limit=0):
+def prepare(selection, output, split, workers, limit=0, source_mode="source-wav"):
     ffmpeg = shutil.which("ffmpeg")
     if not ffmpeg:
         raise RuntimeError("ffmpeg must be installed and on PATH")
@@ -98,7 +107,7 @@ def prepare(selection, output, split, workers, limit=0):
     started, accepted, failures = time.perf_counter(), [], []
     with (root / f"{split}-progress.jsonl").open("a", encoding="utf-8") as progress, \
             ThreadPoolExecutor(max_workers=workers) as pool:
-        futures = [pool.submit(fetch, r, root, ffmpeg) for r in rows]
+        futures = [pool.submit(fetch, r, root, ffmpeg, source_mode) for r in rows]
         for count, future in enumerate(as_completed(futures), 1):
             row, error = future.result()
             if error:
@@ -129,6 +138,7 @@ if __name__ == "__main__":
     parser.add_argument("--split", choices=["train", "validation"], required=True)
     parser.add_argument("--workers", type=int, default=16)
     parser.add_argument("--limit", type=int, default=0)
+    parser.add_argument("--source-mode", choices=["source-wav", "clip-service"], default="source-wav")
     args = parser.parse_args()
     if args.workers < 1 or args.limit < 0:
         parser.error("workers must be positive and limit nonnegative")
