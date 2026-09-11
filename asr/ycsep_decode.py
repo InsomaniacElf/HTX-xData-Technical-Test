@@ -16,6 +16,7 @@ import re
 import shutil
 import sqlite3
 import tempfile
+import threading
 import time
 from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 from pathlib import Path
@@ -30,6 +31,14 @@ DEFAULT_OUTPUT_PATH = Path("asr") / "TDK_subset.csv"
 TDK_CHANNEL = "The_Daily_Ketchup_Podcast"
 V2_AUDIO_BASE = "https://a3s.fi/swift/v1/YCSEP_v2/"
 V2_CLIP_ENDPOINT = "https://ycsep.corpora.li/clip"
+_thread_state = threading.local()
+
+
+def http_session():
+    """Each worker reuses its own connections; Session is not shared across threads."""
+    if not hasattr(_thread_state, "session"):
+        _thread_state.session = requests.Session()
+    return _thread_state.session
 
 
 def normalize_words(text: str) -> list[str]:
@@ -84,21 +93,27 @@ def fallback_clip_url(row: dict[str, str]) -> str:
     })
 
 
-def download_audio(row: dict[str, str], handle, cache_dir: Path | None) -> None:
+def audio_cache_name(row):
+    return hashlib.sha256((row["audio"] + "|" + fallback_clip_url(row)).encode()).hexdigest() + ".mp3"
+
+
+def download_audio(row: dict[str, str], handle, cache_dir: Path | None, cache_only=False):
     urls = [row["audio"], fallback_clip_url(row)]
-    cache_key = hashlib.sha256((row["audio"] + "|" + urls[-1]).encode()).hexdigest()
-    cached = cache_dir / f"{cache_key}.mp3" if cache_dir else None
+    cached = cache_dir / audio_cache_name(row) if cache_dir else None
     if cached and cached.exists():
         with cached.open("rb") as source:
             shutil.copyfileobj(source, handle)
-        return
+        return "cache"
+
+    if cache_only:
+        raise ValueError("Required cached MP3 is missing")
 
     last_error = None
     for url in urls:
         handle.seek(0)
         handle.truncate()
         try:
-            with requests.get(url, stream=True, timeout=(15, 60)) as response:
+            with http_session().get(url, stream=True, timeout=(15, 60)) as response:
                 response.raise_for_status()
                 size = 0
                 for chunk in response.iter_content(1024 * 1024):
@@ -108,6 +123,8 @@ def download_audio(row: dict[str, str], handle, cache_dir: Path | None) -> None:
                     if size > 64 * 1024 * 1024:
                         raise ValueError("Audio download exceeds 64 MiB")
                     handle.write(chunk)
+            if size == 0:
+                raise ValueError("Empty audio response")
             if cached:
                 cached.parent.mkdir(parents=True, exist_ok=True)
                 handle.seek(0)
@@ -115,7 +132,7 @@ def download_audio(row: dict[str, str], handle, cache_dir: Path | None) -> None:
                     temporary_cache = Path(destination.name)
                     shutil.copyfileobj(handle, destination)
                 os.replace(temporary_cache, cached)
-            return
+            return "csv_audio" if url == row["audio"] else "ycsep_v2_clip"
         except (requests.RequestException, ValueError) as exc:
             last_error = exc
     raise last_error or RuntimeError("No audio URL was available")
@@ -136,13 +153,13 @@ def parse_response(result: dict[str, object]) -> tuple[str, float]:
 
 
 def transcribe_row(row: dict[str, str], api_url: str, retries: int,
-                   cache_dir: Path | None) -> tuple[str, float | None, str]:
+                   cache_dir: Path | None, cache_only=False) -> tuple[str, float | None, str]:
     for attempt in range(retries + 1):
         try:
             with tempfile.TemporaryFile() as audio:
-                download_audio(row, audio, cache_dir)
+                download_audio(row, audio, cache_dir, cache_only)
                 audio.seek(0)
-                response = requests.post(
+                response = http_session().post(
                     api_url,
                     files={"file": ("audio.mp3", audio, "audio/mpeg")},
                     timeout=(15, 600),
@@ -157,15 +174,25 @@ def transcribe_row(row: dict[str, str], api_url: str, retries: int,
     return "", None, error
 
 
-def load_tdk_rows(csv_path: str, limit: int | None) -> list[dict[str, str]]:
+def load_tdk_rows(csv_path: str, limit: int | None, shard_index=0,
+                  num_shards=1) -> list[dict[str, str]]:
+    if num_shards < 1 or not 0 <= shard_index < num_shards:
+        raise ValueError("Invalid shard index/count")
+    if limit is not None and limit < 1:
+        raise ValueError("Row limit must be positive or None")
     with open(csv_path, encoding="utf-8-sig", newline="") as handle:
         reader = csv.DictReader(handle)
         required = {"channel", "file", "speaker", "start_time", "end_time", "text", "audio"}
         if not required <= set(reader.fieldnames or []):
             raise ValueError(f"YCSEP CSV must contain: {', '.join(sorted(required))}")
         rows = []
+        position = 0
         for row in reader:
             if row["channel"] == TDK_CHANNEL:
+                selected = position % num_shards == shard_index
+                position += 1
+                if not selected:
+                    continue
                 rows.append(row)
                 if limit is not None and len(rows) >= limit:
                     break
@@ -203,8 +230,11 @@ def export_csv(rows: list[dict[str, str]], database: sqlite3.Connection,
 
 def decode_tdk_subset(csv_path: str, api_url: str, output_path: Path, limit: int | None,
                       workers: int, retries: int, journal_path: Path,
-                      cache_dir: Path | None) -> dict[str, object]:
-    rows = load_tdk_rows(csv_path, limit)
+                      cache_dir: Path | None, shard_index=0, num_shards=1,
+                      cache_only=False) -> dict[str, object]:
+    if workers < 1 or retries < 0:
+        raise ValueError("Workers must be positive and retries nonnegative")
+    rows = load_tdk_rows(csv_path, limit, shard_index, num_shards)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     journal_path.parent.mkdir(parents=True, exist_ok=True)
     if cache_dir:
@@ -219,6 +249,8 @@ def decode_tdk_subset(csv_path: str, api_url: str, output_path: Path, limit: int
         done = {record[0] for record in database.execute("SELECT row_key FROM results WHERE error=''")}
         pending = iter(row for row in rows if row_key(row) not in done)
         processed = 0
+        next_report = 100
+        last_report = time.perf_counter()
         with ThreadPoolExecutor(max_workers=workers) as pool:
             futures = {}
 
@@ -227,11 +259,11 @@ def decode_tdk_subset(csv_path: str, api_url: str, output_path: Path, limit: int
                     row = next(pending, None)
                     if row is None:
                         break
-                    futures[pool.submit(transcribe_row, row, api_url, retries, cache_dir)] = row
+                    futures[pool.submit(transcribe_row, row, api_url, retries, cache_dir, cache_only)] = row
 
             refill()
             while futures:
-                finished, _ = wait(futures, return_when=FIRST_COMPLETED)
+                finished, _ = wait(futures, timeout=30, return_when=FIRST_COMPLETED)
                 for future in finished:
                     row = futures.pop(future)
                     text, duration, error = future.result()
@@ -241,12 +273,15 @@ def decode_tdk_subset(csv_path: str, api_url: str, output_path: Path, limit: int
                     )
                     processed += 1
                 database.commit()
-                if processed % 100 == 0:
+                if processed >= next_report or time.perf_counter() - last_report >= 30:
                     print(json.dumps({
                         "processed_this_run": processed,
                         "total_rows": len(rows),
                         "elapsed_seconds": round(time.perf_counter() - started, 2),
+                        "pending_requests": len(futures),
                     }), flush=True)
+                    next_report = (processed // 100 + 1) * 100
+                    last_report = time.perf_counter()
                 refill()
 
         successful, failures, wer = export_csv(rows, database, output_path)
@@ -259,8 +294,15 @@ def decode_tdk_subset(csv_path: str, api_url: str, output_path: Path, limit: int
         "processed_this_run": processed,
         "elapsed_seconds": time.perf_counter() - started,
         "scope": "full_tdk" if limit is None else f"first_{limit}_tdk_rows",
+        "execution_path": "multipart_http_api",
+        "api_url": api_url,
+        "shard_index": shard_index,
+        "num_shards": num_shards,
+        "cache_only": cache_only,
         "assumption": "WER is computed after lowercasing and simple word-token normalization.",
     }
+    if num_shards > 1:
+        summary["scope"] = f"tdk_shard_{shard_index}_of_{num_shards}"
     output_path.with_name(output_path.stem + "_summary.txt").write_text(
         "\n".join([
             "Task 2c ASR comparison summary",
@@ -288,6 +330,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT_PATH), help="Output CSV path")
     parser.add_argument("--limit", type=int, default=5, help="TDK rows to process. Use 0 for all rows.")
     parser.add_argument("--workers", type=int, default=8, help="Concurrent API/download workers")
+    parser.add_argument("--shard-index", type=int, default=0)
+    parser.add_argument("--num-shards", type=int, default=1)
     parser.add_argument("--retries", type=int, default=3, help="Retries per row")
     parser.add_argument("--journal", default="asr/TDK_subset.sqlite3", help="Resume journal path")
     parser.add_argument("--cache-dir", default="asr/audio_cache", help="Optional downloaded MP3 cache directory")
@@ -306,4 +350,6 @@ if __name__ == "__main__":
         retries=args.retries,
         journal_path=Path(args.journal),
         cache_dir=Path(args.cache_dir) if args.cache_dir else None,
+        shard_index=args.shard_index,
+        num_shards=args.num_shards,
     )
