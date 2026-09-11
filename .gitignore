@@ -239,3 +239,5 @@ test_docs/
 *.run.json
 *.csv.tmp
 
+speaker_reference_1min.wav
+speaker-detection/detection-report.json
