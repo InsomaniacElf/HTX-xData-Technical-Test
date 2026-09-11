@@ -1,0 +1,8 @@
+{
+  "csv_sha256": "a76ea7653b2025bb934e14ecba1c6e5aebdfdb836af6264fb870b7b03316ce83",
+  "reference_sha256": "72edff24218c2be382079da55e46e5ac8bb42b8ceb217841e9d90047a2ddabe2",
+  "model_sha256": "4bcec986de13da7af7ac88736572692359950df63669989c4f78b294934c9089",
+  "window_policy": "Up to three temporally separated clips per group, central 5 s maximum",
+  "groups_total": 6823,
+  "groups_selected": 6823
+}

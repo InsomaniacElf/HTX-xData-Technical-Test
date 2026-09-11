@@ -1,0 +1,303 @@
+{
+  "groups_total": 6823,
+  "groups_processed": 6823,
+  "representative_clips": 16972,
+  "failed_groups": 72,
+  "invalid_timestamp_rows": [],
+  "unscorable_groups": 72,
+  "excluded_short_clips": [
+    {
+      "source_row": 6972,
+      "duration": 0.06000000000005912
+    },
+    {
+      "source_row": 17903,
+      "duration": 0.24099999999998545
+    },
+    {
+      "source_row": 31015,
+      "duration": 0.03999999999996362
+    },
+    {
+      "source_row": 68999,
+      "duration": 0.22100000000045839
+    },
+    {
+      "source_row": 72787,
+      "duration": 0.11999999999989086
+    },
+    {
+      "source_row": 80949,
+      "duration": 0.18000000000006366
+    },
+    {
+      "source_row": 80652,
+      "duration": 0.1600000000000037
+    },
+    {
+      "source_row": 148892,
+      "duration": 0.13999999999987267
+    },
+    {
+      "source_row": 152570,
+      "duration": 0.18000000000006366
+    },
+    {
+      "source_row": 157995,
+      "duration": 0.2400000000000091
+    },
+    {
+      "source_row": 170811,
+      "duration": 0.12100000000000044
+    },
+    {
+      "source_row": 186969,
+      "duration": 0.17999999999994998
+    },
+    {
+      "source_row": 196216,
+      "duration": 0.20099999999996498
+    },
+    {
+      "source_row": 202207,
+      "duration": 0.22100000000000364
+    },
+    {
+      "source_row": 213857,
+      "duration": 0.14000000000010004
+    },
+    {
+      "source_row": 251739,
+      "duration": 0.060000000000002274
+    },
+    {
+      "source_row": 253687,
+      "duration": 0.21999999999999886
+    },
+    {
+      "source_row": 255809,
+      "duration": 0.2400000000000091
+    },
+    {
+      "source_row": 323262,
+      "duration": 0.20000000000027285
+    },
+    {
+      "source_row": 327569,
+      "duration": 0.13999999999999346
+    },
+    {
+      "source_row": 329470,
+      "duration": 0.040000000000020464
+    },
+    {
+      "source_row": 332357,
+      "duration": 0.22000000000025466
+    },
+    {
+      "source_row": 335085,
+      "duration": 0.18000000000029104
+    },
+    {
+      "source_row": 335332,
+      "duration": 0.09999999999999432
+    },
+    {
+      "source_row": 351175,
+      "duration": 0.13999999999998636
+    },
+    {
+      "source_row": 356741,
+      "duration": 0.23999999999978172
+    },
+    {
+      "source_row": 360248,
+      "duration": 0.16000000000030923
+    },
+    {
+      "source_row": 369511,
+      "duration": 0.18000000000029104
+    },
+    {
+      "source_row": 373340,
+      "duration": 0.11999999999989086
+    },
+    {
+      "source_row": 393130,
+      "duration": 0.2400000000000091
+    },
+    {
+      "source_row": 435849,
+      "duration": 0.11999999999989086
+    },
+    {
+      "source_row": 436298,
+      "duration": 0.10000000000002274
+    },
+    {
+      "source_row": 461190,
+      "duration": 0.24099999999998545
+    },
+    {
+      "source_row": 473228,
+      "duration": 0.09999999999990905
+    },
+    {
+      "source_row": 496510,
+      "duration": 0.2400000000000091
+    },
+    {
+      "source_row": 497610,
+      "duration": 0.22100000000000364
+    },
+    {
+      "source_row": 497393,
+      "duration": 0.22000000000002728
+    },
+    {
+      "source_row": 498259,
+      "duration": 0.22000000000002728
+    },
+    {
+      "source_row": 507385,
+      "duration": 0.2199999999997999
+    },
+    {
+      "source_row": 523247,
+      "duration": 0.11999999999989086
+    },
+    {
+      "source_row": 524883,
+      "duration": 0.22100000000045839
+    },
+    {
+      "source_row": 526157,
+      "duration": 0.22000000000002728
+    },
+    {
+      "source_row": 528402,
+      "duration": 0.1999999999999318
+    },
+    {
+      "source_row": 532810,
+      "duration": 0.20000000000027285
+    },
+    {
+      "source_row": 540678,
+      "duration": 0.2400000000000091
+    },
+    {
+      "source_row": 558271,
+      "duration": 0.2199999999997999
+    },
+    {
+      "source_row": 558050,
+      "duration": 0.2400000000000091
+    },
+    {
+      "source_row": 565423,
+      "duration": 0.07999999999992724
+    },
+    {
+      "source_row": 566866,
+      "duration": 0.12000000000000455
+    },
+    {
+      "source_row": 582609,
+      "duration": 0.0799999999999983
+    },
+    {
+      "source_row": 588825,
+      "duration": 0.2199999999997999
+    },
+    {
+      "source_row": 599054,
+      "duration": 0.1999999999998181
+    },
+    {
+      "source_row": 606687,
+      "duration": 0.2400000000000091
+    },
+    {
+      "source_row": 612483,
+      "duration": 0.2000000000007276
+    },
+    {
+      "source_row": 622999,
+      "duration": 0.14000000000032742
+    },
+    {
+      "source_row": 627997,
+      "duration": 0.24000000000023647
+    },
+    {
+      "source_row": 631581,
+      "duration": 0.20000000000004547
+    },
+    {
+      "source_row": 635956,
+      "duration": 0.20000000000004547
+    },
+    {
+      "source_row": 637801,
+      "duration": 0.22000000000002728
+    },
+    {
+      "source_row": 645693,
+      "duration": 0.2199999999997999
+    },
+    {
+      "source_row": 651245,
+      "duration": 0.23999999999978172
+    },
+    {
+      "source_row": 650821,
+      "duration": 0.17999999999994998
+    },
+    {
+      "source_row": 655420,
+      "duration": 0.2199999999997999
+    },
+    {
+      "source_row": 657576,
+      "duration": 0.18000000000029104
+    },
+    {
+      "source_row": 661261,
+      "duration": 0.18099999999958527
+    },
+    {
+      "source_row": 664437,
+      "duration": 0.24000000000023647
+    },
+    {
+      "source_row": 666390,
+      "duration": 0.14000000000010004
+    },
+    {
+      "source_row": 672816,
+      "duration": 0.15999999999985448
+    },
+    {
+      "source_row": 694382,
+      "duration": 0.20000000000004547
+    },
+    {
+      "source_row": 703056,
+      "duration": 0.2400000000000091
+    },
+    {
+      "source_row": 724887,
+      "duration": 0.04000000000007731
+    },
+    {
+      "source_row": 752961,
+      "duration": 0.20299999999997453
+    }
+  ],
+  "retryable_failures": 0,
+  "elapsed_seconds": 47.89917304899973,
+  "status": "retrieval_scores_only",
+  "threshold_selected": false,
+  "boundary_source": "YCSEP annotations; not independently verified"
+}

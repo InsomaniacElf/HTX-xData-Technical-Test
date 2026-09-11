@@ -1,0 +1,72 @@
+{
+  "model": "pyannote/embedding",
+  "duration": 60.0,
+  "source_sha256": "38e8e4e1a356683ce9dea22b61e43c156ad5bc02f5cb4606efc54f64457e8f67",
+  "windows": [
+    {
+      "start": 0.0,
+      "end": 5.0,
+      "rms": 0.09100254625082016
+    },
+    {
+      "start": 5.0,
+      "end": 10.0,
+      "rms": 0.0845179632306099
+    },
+    {
+      "start": 10.0,
+      "end": 15.0,
+      "rms": 0.08257504552602768
+    },
+    {
+      "start": 15.0,
+      "end": 20.0,
+      "rms": 0.07680962234735489
+    },
+    {
+      "start": 20.0,
+      "end": 25.0,
+      "rms": 0.08219561725854874
+    },
+    {
+      "start": 25.0,
+      "end": 30.0,
+      "rms": 0.0922914370894432
+    },
+    {
+      "start": 30.0,
+      "end": 35.0,
+      "rms": 0.08337149024009705
+    },
+    {
+      "start": 35.0,
+      "end": 40.0,
+      "rms": 0.09839928150177002
+    },
+    {
+      "start": 40.0,
+      "end": 45.0,
+      "rms": 0.07575561851263046
+    },
+    {
+      "start": 45.0,
+      "end": 50.0,
+      "rms": 0.08203056454658508
+    },
+    {
+      "start": 50.0,
+      "end": 55.0,
+      "rms": 0.08384634554386139
+    },
+    {
+      "start": 55.0,
+      "end": 60.0,
+      "rms": 0.07905814051628113
+    }
+  ],
+  "embedding_dimension": 512,
+  "pairwise_cosine_min": 0.2491220235824585,
+  "pairwise_cosine_median": 0.44890207052230835,
+  "elapsed_seconds": 11.964787404000162,
+  "calibration_status": "Within-reference diagnostic only; no cross-recording threshold selected"
+}
