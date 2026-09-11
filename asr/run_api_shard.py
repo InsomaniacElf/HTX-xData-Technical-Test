@@ -4,6 +4,7 @@ Used by Azure ML command jobs. The API is the same asr_api.py tested in Docker;
 all generated_text values are obtained through multipart POST /asr requests.
 """
 import argparse
+import hashlib
 import importlib.metadata
 import json
 import os
@@ -53,6 +54,7 @@ def run(args):
                 args.workers, args.retries, output / f"{name}.sqlite3", cache,
                 args.shard_index, args.num_shards, cache_only=bool(args.cache))
             result.update(startup_seconds=startup_seconds,
+                source_csv_sha256=hashlib.file_digest(open(args.csv, "rb"), "sha256").hexdigest(),
                 total_seconds=time.perf_counter()-started,
                 package_versions={k: importlib.metadata.version(k) for k in
                     ["torch", "nemo_toolkit", "fastapi", "librosa", "requests"]})

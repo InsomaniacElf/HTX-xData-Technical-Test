@@ -113,7 +113,8 @@ def download_audio(row: dict[str, str], handle, cache_dir: Path | None, cache_on
         handle.seek(0)
         handle.truncate()
         try:
-            with http_session().get(url, stream=True, timeout=(15, 60)) as response:
+            timeout = (5, 20) if url == row["audio"] else (10, 60)
+            with http_session().get(url, stream=True, timeout=timeout) as response:
                 response.raise_for_status()
                 size = 0
                 for chunk in response.iter_content(1024 * 1024):
