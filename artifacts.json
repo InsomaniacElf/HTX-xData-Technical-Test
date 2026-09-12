@@ -1,18 +1,18 @@
 {
-  "release": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/tag/submission-e1-20260912",
+  "release": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/tag/submission-e3-20260913",
   "artifacts": [
     {
       "kind": "dataset",
       "path": "asr/TDK_subset.csv",
-      "bytes": 143715984,
-      "sha256": "941858227a7d15f115b81c2542dfedee8b67ca7de1385665470869ab5917e6d0",
+      "bytes": 143648837,
+      "sha256": "6debc6f58dd74665c1d68d04e6c9fa81ffb37ca6f9326187d9a3093046de3713",
       "encoding": "gzip",
       "parts": [
         {
           "name": "TDK_subset.csv.gz",
-          "url": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/download/submission-e1-20260912/TDK_subset.csv.gz",
-          "sha256": "348692d1d8ce054121b6ecbe440d85424eae5614f228dca5d0923b082568cfbb",
-          "bytes": 21711522
+          "url": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/download/submission-e3-20260913/TDK_subset.csv.gz",
+          "sha256": "b54afe000333e73d13f98397df1a6d2355a8aadcb5146a5282e86401ed493993",
+          "bytes": 21664889
         }
       ]
     },
@@ -20,25 +20,25 @@
       "kind": "model",
       "path": "asr-train/models/parakeet-tdt-0.6b-v3-ycsep.nemo",
       "bytes": 2509322240,
-      "sha256": "8860f2759272a5585b7d8034492a15c2ee10ca68ff3db75698dea5a36e903e2d",
+      "sha256": "c7c194c87490455b673cc7ad713d53a760231e236ad5dfb365eab585c8a81877",
       "encoding": "concatenated",
       "parts": [
         {
           "name": "parakeet-tdt-0.6b-v3-ycsep.nemo.part00",
-          "url": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/download/submission-e1-20260912/parakeet-tdt-0.6b-v3-ycsep.nemo.part00",
-          "sha256": "3ad89b519da3198a27a7ef70039eba0d82f083093f3d811236e201bc4f118c03",
+          "url": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/download/submission-e3-20260913/parakeet-tdt-0.6b-v3-ycsep.nemo.part00",
+          "sha256": "1f431b2d865c1631fa1c1b58fbc660eb5962804094fa7734192a9ca965cb0248",
           "bytes": 950000000
         },
         {
           "name": "parakeet-tdt-0.6b-v3-ycsep.nemo.part01",
-          "url": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/download/submission-e1-20260912/parakeet-tdt-0.6b-v3-ycsep.nemo.part01",
-          "sha256": "75be50c4a9a61ac0321b9475fca20a35b80fb4b0fe818a382792566b5bc04d8c",
+          "url": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/download/submission-e3-20260913/parakeet-tdt-0.6b-v3-ycsep.nemo.part01",
+          "sha256": "9c0d469a5ea339a601b08ad140db7531350d94b1296174de4bcfbef9e1addc03",
           "bytes": 950000000
         },
         {
           "name": "parakeet-tdt-0.6b-v3-ycsep.nemo.part02",
-          "url": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/download/submission-e1-20260912/parakeet-tdt-0.6b-v3-ycsep.nemo.part02",
-          "sha256": "b4556568beb87f9a7f7884f80940f2c51ac9f74346a2b6ee121e665b990e8a7e",
+          "url": "https://github.com/InsomaniacElf/HTX-xData-Technical-Test/releases/download/submission-e3-20260913/parakeet-tdt-0.6b-v3-ycsep.nemo.part02",
+          "sha256": "a50b33f206530d68acb270582dff28f4872f4197cbc40cddb2fd413758fa3c19",
           "bytes": 609322240
         }
       ]

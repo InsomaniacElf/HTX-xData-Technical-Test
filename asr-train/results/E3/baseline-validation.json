@@ -1,0 +1,10 @@
+{
+  "metrics": [
+    {
+      "global_step": 0.0,
+      "val_wer": 0.3220418393611908
+    }
+  ],
+  "elapsed_seconds": 28.665877406999925,
+  "metric_definition": "NeMo native validation WER; final TDK comparison uses canonical scorer"
+}

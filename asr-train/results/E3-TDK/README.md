@@ -24,8 +24,7 @@ Its best native validation WER was 24.6470% at step 3,000. No convergence claim
 is made. E4's inconsistent resumed validation score and selected artifact are
 excluded, not substituted into this evaluation.
 
-The public `artifacts.json` still identifies E1. The verified E3 model and full
-CSV are staged locally, separate from that release. Publishing E3 requires a
-new artifact manifest and matching model/CSV assets; never silently mix versions.
+The public `artifacts.json` identifies the matching E3 model and complete CSV
+in release `submission-e3-20260913`. The E1 release is retained as history.
 The existing `merge_evaluation_shards.py`, `score_transcriptions.py`,
 `compare_models.py` and `analyze_errors.py` produced the evidence in this folder.
