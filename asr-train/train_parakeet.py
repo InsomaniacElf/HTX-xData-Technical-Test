@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import importlib.metadata
 import json
+import math
 import time
 from pathlib import Path
 
@@ -40,10 +41,11 @@ def resolve_manifests(train_path, validation_path, output):
 
 def train(train_manifest, validation_manifest, output, max_steps=1200, batch_size=8,
           learning_rate=1e-5, validation_interval=200, workers=4, max_minutes=120,
-          accumulation=4):
+          accumulation=4, early_stopping_patience=0, early_stopping_min_delta=0.0005,
+          retain_optimizer_state=False):
     import torch
     from lightning.pytorch import Trainer, seed_everything
-    from lightning.pytorch.callbacks import ModelCheckpoint
+    from lightning.pytorch.callbacks import ModelCheckpoint, EarlyStopping
     from lightning.pytorch.loggers import CSVLogger
     from nemo.collections.asr.models import ASRModel
     from omegaconf import OmegaConf, open_dict
@@ -52,6 +54,8 @@ def train(train_manifest, validation_manifest, output, max_steps=1200, batch_siz
         raise RuntimeError("A BF16-capable CUDA GPU is required")
     if min(max_steps, batch_size, validation_interval, max_minutes, accumulation) < 1 or learning_rate <= 0:
         raise ValueError("Invalid training configuration")
+    if early_stopping_patience < 0 or not math.isfinite(early_stopping_min_delta) or early_stopping_min_delta < 0:
+        raise ValueError("Invalid early-stopping configuration")
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     if (output / "training-result.json").exists():
@@ -59,14 +63,18 @@ def train(train_manifest, validation_manifest, output, max_steps=1200, batch_siz
     paths, data_report = resolve_manifests(train_manifest, validation_manifest, output)
     seed_everything(2026, workers=True)
     checkpoint = ModelCheckpoint(dirpath=output / "checkpoints", monitor="val_wer",
-        mode="min", save_top_k=1, save_last=False, save_weights_only=True,
+        mode="min", save_top_k=1, save_last=False, save_weights_only=not retain_optimizer_state,
         filename="parakeet-{step}-{val_wer:.4f}")
+    stopping = EarlyStopping(monitor="val_wer", mode="min", patience=early_stopping_patience,
+        min_delta=early_stopping_min_delta, strict=True, check_finite=True,
+        check_on_train_epoch_end=False, verbose=True) if early_stopping_patience else None
+    callbacks = [checkpoint] + ([stopping] if stopping else [])
     logger = CSVLogger(save_dir=str(output), name="training")
     trainer = Trainer(accelerator="gpu", devices=1, precision="bf16-mixed",
         max_steps=max_steps, max_epochs=-1, max_time={"minutes": max_minutes},
         accumulate_grad_batches=accumulation, gradient_clip_val=1.0,
         log_every_n_steps=1, val_check_interval=validation_interval,
-        check_val_every_n_epoch=None, callbacks=[checkpoint], logger=logger,
+        check_val_every_n_epoch=None, callbacks=callbacks, logger=logger,
         num_sanity_val_steps=2, enable_progress_bar=False, deterministic=False)
     model = ASRModel.from_pretrained("nvidia/parakeet-tdt-0.6b-v3")
     model.set_trainer(trainer)
@@ -89,7 +97,10 @@ def train(train_manifest, validation_manifest, output, max_steps=1200, batch_siz
         "data": data_report, "validation_interval_microbatches": validation_interval,
         "max_minutes": max_minutes, "tokenizer": "Unchanged pretrained tokenizer",
         "tokenizer_vocab_size": model.tokenizer.vocab_size,
-        "checkpoint_policy": "Best weights only; optimizer restart state is not retained",
+        "checkpoint_policy": ("Best full Lightning checkpoint including optimizer state" if retain_optimizer_state
+                              else "Best weights only; optimizer restart state is not retained"),
+        "early_stopping": {"patience_validation_checks": early_stopping_patience,
+                           "min_delta_absolute_wer": early_stopping_min_delta},
         "package_versions": {p: importlib.metadata.version(p) for p in
             ["torch", "nemo_toolkit", "lightning", "transformers", "numba", "numba-cuda"]}}
     (output / "experiment.json").write_text(json.dumps(config, indent=2), encoding="utf-8")
@@ -115,12 +126,16 @@ def train(train_manifest, validation_manifest, output, max_steps=1200, batch_siz
             if model.cfg.get(split) is not None:
                 model.cfg[split].manifest_filepath = None
     model.save_to(str(output / "parakeet-tdt-0.6b-v3-ycsep.nemo"))
+    stop_reason = ("validation_plateau" if stopping and stopping.wait_count >= early_stopping_patience
+                   else "max_steps" if trainer.global_step >= max_steps else "time_limit_or_trainer_stop")
     result = {"elapsed_training_seconds": elapsed, "optimizer_steps": trainer.global_step,
               "best_checkpoint": str(Path(checkpoint.best_model_path).name),
               "best_validation_wer": float(checkpoint.best_model_score),
               "peak_cuda_memory_bytes": torch.cuda.max_memory_allocated(),
               "gpu": torch.cuda.get_device_name(), "status": "completed",
-              "baseline_validation": baseline}
+              "baseline_validation": baseline, "stop_reason": stop_reason,
+              "early_stopping_wait_count": stopping.wait_count if stopping else None,
+              "convergence_note": "A plateau criterion is not proof of mathematical or global convergence"}
     (output / "training-result.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
     print(json.dumps(result, indent=2), flush=True)
     return result
@@ -138,4 +153,7 @@ if __name__ == "__main__":
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--max-minutes", type=int, default=120)
     parser.add_argument("--accumulation", type=int, default=4)
+    parser.add_argument("--early-stopping-patience", type=int, default=0)
+    parser.add_argument("--early-stopping-min-delta", type=float, default=0.0005)
+    parser.add_argument("--retain-optimizer-state", action="store_true")
     train(**vars(parser.parse_args()))

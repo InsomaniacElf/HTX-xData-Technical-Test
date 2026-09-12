@@ -96,3 +96,20 @@ not speaker-disjoint, evaluation. TDK is final test only.
 
 Working notes, verification scripts and intermediate artifacts are kept locally
 and excluded from the submission repository.
+
+## Optional Duration Experiment
+
+The training helper supports `--early-stopping-patience` (validation checks, not
+epochs), `--early-stopping-min-delta` (absolute WER units), and
+`--retain-optimizer-state` (save the best full Lightning checkpoint). Defaults
+preserve the original E1/E2 training behavior. A plateau under this rule is not
+proof of global convergence; inspect the recorded `stop_reason` and curves.
+
+The archive entry point accepts expected train/validation manifest SHA-256 values
+and rejects mismatched inputs before loading the model. These controls support
+an E1-data duration experiment: 3,000 updates/180 fit minutes, validation every
+50 optimizer updates, patience 10 and minimum improvement 0.0005 WER. It starts
+from the original pretrained model with the same seed, data and learning rate;
+GPU nondeterminism means the first 1,200 updates need not reproduce exactly.
+This experiment does not replace the released E1 model or its reported results
+until its non-TDK validation evidence has been reviewed.

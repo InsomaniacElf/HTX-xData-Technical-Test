@@ -1,5 +1,6 @@
 """Run the same notebook training function on a packed, validated audio dataset."""
 import argparse
+import hashlib
 import shutil
 import tarfile
 import tempfile
@@ -23,8 +24,15 @@ def run(args):
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 with destination.open("wb") as handle:
                     shutil.copyfileobj(archive.extractfile(member), handle)
+        for split in ['train', 'validation']:
+            expected = getattr(args, f'expected_{split}_sha256', None)
+            if expected and hashlib.sha256((root / f'{split}.jsonl').read_bytes()).hexdigest() != expected:
+                raise ValueError(f'{split} manifest differs from the specified comparison experiment')
         return train(root / "train.jsonl", root / "validation.jsonl", args.output,
-                     max_steps=args.max_steps, max_minutes=args.max_minutes, batch_size=args.batch_size)
+                     max_steps=args.max_steps, max_minutes=args.max_minutes, batch_size=args.batch_size,
+                     early_stopping_patience=getattr(args, 'early_stopping_patience', 0),
+                     early_stopping_min_delta=getattr(args, 'early_stopping_min_delta', 0.0005),
+                     retain_optimizer_state=getattr(args, 'retain_optimizer_state', False))
 
 
 if __name__ == "__main__":
@@ -34,4 +42,9 @@ if __name__ == "__main__":
     parser.add_argument("--max-steps", type=int, default=1200)
     parser.add_argument("--max-minutes", type=int, default=120)
     parser.add_argument("--batch-size", type=int, default=8)
+    parser.add_argument("--early-stopping-patience", type=int, default=0)
+    parser.add_argument("--early-stopping-min-delta", type=float, default=0.0005)
+    parser.add_argument("--retain-optimizer-state", action="store_true")
+    parser.add_argument("--expected-train-sha256")
+    parser.add_argument("--expected-validation-sha256")
     run(parser.parse_args())
