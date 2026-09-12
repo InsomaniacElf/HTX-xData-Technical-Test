@@ -1,0 +1,343 @@
+{
+  "verified_groups": 6751,
+  "reference_windows": 12,
+  "variants": [
+    {
+      "variant": "first_half",
+      "original_selected_ranks": [
+        1,
+        2
+      ],
+      "top_three": [
+        {
+          "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+          "speaker": "SPEAKER_02",
+          "score": 0.47583141922950745
+        },
+        {
+          "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+          "speaker": "SPEAKER_03",
+          "score": 0.44811633229255676
+        },
+        {
+          "file": "20221203--jk792k4a1v4--Should Trevor Noah Have Pressed Will Smith\uff1f.TextGrid",
+          "speaker": "SPEAKER_01",
+          "score": 0.427865207195282
+        }
+      ]
+    },
+    {
+      "variant": "second_half",
+      "original_selected_ranks": [
+        1,
+        2
+      ],
+      "top_three": [
+        {
+          "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+          "speaker": "SPEAKER_02",
+          "score": 0.5198151469230652
+        },
+        {
+          "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+          "speaker": "SPEAKER_03",
+          "score": 0.5131372213363647
+        },
+        {
+          "file": "20231211--OYmDy_KQQaI--What This Russian Expat REALLY Thinks of SG (ft. Max Chernov) \uff5c #DailyKetchup EP265.TextGrid",
+          "speaker": "SPEAKER_00",
+          "score": 0.42265307903289795
+        }
+      ]
+    },
+    {
+      "variant": "omit_window_0",
+      "original_selected_ranks": [
+        1,
+        2
+      ],
+      "top_three": [
+        {
+          "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+          "speaker": "SPEAKER_02",
+          "score": 0.5446724891662598
+        },
+        {
+          "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+          "speaker": "SPEAKER_03",
+          "score": 0.5409723520278931
+        },
+        {
+          "file": "20230130--NeV0shDHyw4--Matt Walsh praises SG\u2019s strict laws & police warns employer for fighting with helper \uff5c #YLB #361.TextGrid",
+          "speaker": "SPEAKER_01",
+          "score": 0.45338574051856995
+        }
+      ]
+    },
+    {
+      "variant": "omit_window_1",
+      "original_selected_ranks": [
+        2,
+        1
+      ],
+      "top_three": [
+        {
+          "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+          "speaker": "SPEAKER_03",
+          "score": 0.5479699373245239
+        },
+        {
+          "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+          "speaker": "SPEAKER_02",
+          "score": 0.547864556312561
+        },
+        {
+          "file": "20230130--NeV0shDHyw4--Matt Walsh praises SG\u2019s strict laws & police warns employer for fighting with helper \uff5c #YLB #361.TextGrid",
+          "speaker": "SPEAKER_01",
+          "score": 0.43349602818489075
+        }
+      ]
+    },
+    {
+      "variant": "omit_window_2",
+      "original_selected_ranks": [
+        1,
+        2
+      ],
+      "top_three": [
+        {
+          "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+          "speaker": "SPEAKER_02",
+          "score": 0.5306701064109802
+        },
+        {
+          "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+          "speaker": "SPEAKER_03",
+          "score": 0.5297927260398865
+        },
+        {
+          "file": "20230130--NeV0shDHyw4--Matt Walsh praises SG\u2019s strict laws & police warns employer for fighting with helper \uff5c #YLB #361.TextGrid",
+          "speaker": "SPEAKER_01",
+          "score": 0.44856858253479004
+        }
+      ]
+    },
+    {
+      "variant": "omit_window_3",
+      "original_selected_ranks": [
+        1,
+        2
+      ],
+      "top_three": [
+        {
+          "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+          "speaker": "SPEAKER_02",
+          "score": 0.5406880378723145
+        },
+        {
+          "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+          "speaker": "SPEAKER_03",
+          "score": 0.5361089706420898
+        },
+        {
+          "file": "20230130--NeV0shDHyw4--Matt Walsh praises SG\u2019s strict laws & police warns employer for fighting with helper \uff5c #YLB #361.TextGrid",
+          "speaker": "SPEAKER_01",
+          "score": 0.4505082368850708
+        }
+      ]
+    },
+    {
+      "variant": "omit_window_4",
+      "original_selected_ranks": [
+        2,
+        1
+      ],
+      "top_three": [
+        {
+          "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+          "speaker": "SPEAKER_03",
+          "score": 0.5527529716491699
+        },
+        {
+          "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+          "speaker": "SPEAKER_02",
+          "score": 0.5499444007873535
+        },
+        {
+          "file": "20230130--NeV0shDHyw4--Matt Walsh praises SG\u2019s strict laws & police warns employer for fighting with helper \uff5c #YLB #361.TextGrid",
+          "speaker": "SPEAKER_01",
+          "score": 0.4528324604034424
+        }
+      ]
+    },
+    {
+      "variant": "omit_window_5",
+      "original_selected_ranks": [
+        2,
+        1
+      ],
+      "top_three": [
+        {
+          "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+          "speaker": "SPEAKER_03",
+          "score": 0.5284504890441895
+        },
+        {
+          "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+          "speaker": "SPEAKER_02",
+          "score": 0.5260375738143921
+        },
+        {
+          "file": "20230130--NeV0shDHyw4--Matt Walsh praises SG\u2019s strict laws & police warns employer for fighting with helper \uff5c #YLB #361.TextGrid",
+          "speaker": "SPEAKER_01",
+          "score": 0.43612194061279297
+        }
+      ]
+    },
+    {
+      "variant": "omit_window_6",
+      "original_selected_ranks": [
+        1,
+        2
+      ],
+      "top_three": [
+        {
+          "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+          "speaker": "SPEAKER_02",
+          "score": 0.5193631649017334
+        },
+        {
+          "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+          "speaker": "SPEAKER_03",
+          "score": 0.5168201923370361
+        },
+        {
+          "file": "20230130--NeV0shDHyw4--Matt Walsh praises SG\u2019s strict laws & police warns employer for fighting with helper \uff5c #YLB #361.TextGrid",
+          "speaker": "SPEAKER_01",
+          "score": 0.43865278363227844
+        }
+      ]
+    },
+    {
+      "variant": "omit_window_7",
+      "original_selected_ranks": [
+        1,
+        2
+      ],
+      "top_three": [
+        {
+          "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+          "speaker": "SPEAKER_02",
+          "score": 0.5277956128120422
+        },
+        {
+          "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+          "speaker": "SPEAKER_03",
+          "score": 0.5219942331314087
+        },
+        {
+          "file": "20230130--NeV0shDHyw4--Matt Walsh praises SG\u2019s strict laws & police warns employer for fighting with helper \uff5c #YLB #361.TextGrid",
+          "speaker": "SPEAKER_01",
+          "score": 0.4474021792411804
+        }
+      ]
+    },
+    {
+      "variant": "omit_window_8",
+      "original_selected_ranks": [
+        1,
+        2
+      ],
+      "top_three": [
+        {
+          "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+          "speaker": "SPEAKER_02",
+          "score": 0.546955943107605
+        },
+        {
+          "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+          "speaker": "SPEAKER_03",
+          "score": 0.5361752510070801
+        },
+        {
+          "file": "20230130--NeV0shDHyw4--Matt Walsh praises SG\u2019s strict laws & police warns employer for fighting with helper \uff5c #YLB #361.TextGrid",
+          "speaker": "SPEAKER_01",
+          "score": 0.45321202278137207
+        }
+      ]
+    },
+    {
+      "variant": "omit_window_9",
+      "original_selected_ranks": [
+        1,
+        2
+      ],
+      "top_three": [
+        {
+          "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+          "speaker": "SPEAKER_02",
+          "score": 0.5325657725334167
+        },
+        {
+          "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+          "speaker": "SPEAKER_03",
+          "score": 0.5281573534011841
+        },
+        {
+          "file": "20230130--NeV0shDHyw4--Matt Walsh praises SG\u2019s strict laws & police warns employer for fighting with helper \uff5c #YLB #361.TextGrid",
+          "speaker": "SPEAKER_01",
+          "score": 0.445740282535553
+        }
+      ]
+    },
+    {
+      "variant": "omit_window_10",
+      "original_selected_ranks": [
+        1,
+        2
+      ],
+      "top_three": [
+        {
+          "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+          "speaker": "SPEAKER_02",
+          "score": 0.5414659380912781
+        },
+        {
+          "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+          "speaker": "SPEAKER_03",
+          "score": 0.5321078896522522
+        },
+        {
+          "file": "20230130--NeV0shDHyw4--Matt Walsh praises SG\u2019s strict laws & police warns employer for fighting with helper \uff5c #YLB #361.TextGrid",
+          "speaker": "SPEAKER_01",
+          "score": 0.45023655891418457
+        }
+      ]
+    },
+    {
+      "variant": "omit_window_11",
+      "original_selected_ranks": [
+        1,
+        2
+      ],
+      "top_three": [
+        {
+          "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+          "speaker": "SPEAKER_02",
+          "score": 0.5384836196899414
+        },
+        {
+          "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+          "speaker": "SPEAKER_03",
+          "score": 0.5372483730316162
+        },
+        {
+          "file": "20230130--NeV0shDHyw4--Matt Walsh praises SG\u2019s strict laws & police warns employer for fighting with helper \uff5c #YLB #361.TextGrid",
+          "speaker": "SPEAKER_01",
+          "score": 0.44406723976135254
+        }
+      ]
+    }
+  ],
+  "interpretation": "Rank stability only. A changed reference needs its own threshold calibration. No identity labels or boundary verification."
+}

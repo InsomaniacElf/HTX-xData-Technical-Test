@@ -53,3 +53,29 @@ The original full retrieval first pass took 62.9 minutes; this is not a runtime 
 Future work: label cross-recording examples for threshold calibration, inspect
 unknown groups, and evaluate full-recording re-diarization separately. Sortformer
 and the alternative Colab VAD pipeline are not part of the submitted predictions.
+
+## Prediction Robustness Audit
+
+`results/robustness-audit.json` records a CPU-only sweep of the saved scores:
+the same two videos are selected at thresholds 0.46 through 0.52; three at
+0.44 and none at 0.54. Each selected group has two of three sampled clips above
+0.49, so group-level predictions must not be interpreted as verified identity
+for every annotated interval.
+
+`results/reference-stability-audit.json` reproduces all 6,751 scorable groups
+from cached embeddings, then checks two half-reference and twelve leave-one-window-out
+prototypes. The original two matches occupy the top two ranks in all 14 variants.
+This establishes ranking stability, not calibrated precision/recall; 72 groups
+remain unscorable. The detection files and original threshold are unchanged.
+
+Reproduce the score audit without GPU or network:
+
+```bash
+python speaker-detection/audit_predictions.py --scores speaker-detection/results/group-scores.jsonl.gz --output test_docs/speaker-audit.json
+```
+
+The optional `audit_reference_stability.py` requires the original reference NPZ,
+retrieval SQLite cache, score archive and configuration; it verifies the reference
+hash and reproduces original scores before reporting ablation ranks. These bulky
+caches are working artifacts, not prerequisites for replaying the submitted notebook.
+Manual identity checks remain unsure and independent boundary listening is pending.

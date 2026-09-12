@@ -1,0 +1,328 @@
+{
+  "groups": 6823,
+  "unscorable": 72,
+  "threshold_sweep": [
+    {
+      "threshold": 0.35,
+      "groups": 98,
+      "videos": 97
+    },
+    {
+      "threshold": 0.4,
+      "groups": 24,
+      "videos": 24
+    },
+    {
+      "threshold": 0.44,
+      "groups": 3,
+      "videos": 3
+    },
+    {
+      "threshold": 0.46,
+      "groups": 2,
+      "videos": 2
+    },
+    {
+      "threshold": 0.48,
+      "groups": 2,
+      "videos": 2
+    },
+    {
+      "threshold": 0.49,
+      "groups": 2,
+      "videos": 2
+    },
+    {
+      "threshold": 0.5,
+      "groups": 2,
+      "videos": 2
+    },
+    {
+      "threshold": 0.52,
+      "groups": 2,
+      "videos": 2
+    },
+    {
+      "threshold": 0.54,
+      "groups": 0,
+      "videos": 0
+    },
+    {
+      "threshold": 0.56,
+      "groups": 0,
+      "videos": 0
+    },
+    {
+      "threshold": 0.6,
+      "groups": 0,
+      "videos": 0
+    }
+  ],
+  "selected_groups": [
+    {
+      "file": "20220726--7xS2y_U0Bz4--The Woke Salaryman on the BIGGEST Problem Rich People Face.TextGrid",
+      "speaker": "SPEAKER_02",
+      "median_similarity": 0.5393835306167603,
+      "similarities": [
+        0.5940513610839844,
+        0.5393835306167603,
+        0.4618155360221863
+      ],
+      "representative_rows": [
+        384389,
+        384543,
+        384476
+      ],
+      "failed_rows": [],
+      "clips_above_threshold": 2,
+      "all_scored_clips_above_threshold": false,
+      "annotated_segments": 54,
+      "human_identity": "unsure"
+    },
+    {
+      "file": "20220726--K0KWltK4Pvg--The Woke Salaryman on why you should give your kids nothing, and why SG rocks - #YLB 310.TextGrid",
+      "speaker": "SPEAKER_03",
+      "median_similarity": 0.536184549331665,
+      "similarities": [
+        0.536184549331665,
+        0.5557810068130493,
+        0.3752586543560028
+      ],
+      "representative_rows": [
+        384556,
+        386747,
+        385555
+      ],
+      "failed_rows": [],
+      "clips_above_threshold": 2,
+      "all_scored_clips_above_threshold": false,
+      "annotated_segments": 741,
+      "human_identity": "unsure"
+    }
+  ],
+  "near_threshold": [
+    {
+      "file": "20230130--NeV0shDHyw4--Matt Walsh praises SG\u2019s strict laws & police warns employer for fighting with helper \uff5c #YLB #361.TextGrid",
+      "speaker": "SPEAKER_01",
+      "median_similarity": 0.44801634550094604,
+      "similarities": [
+        0.4589235186576843,
+        0.44801634550094604,
+        0.27158957719802856
+      ],
+      "representative_rows": [
+        447545,
+        446422,
+        446947
+      ],
+      "failed_rows": [],
+      "clips_above_threshold": 0,
+      "all_scored_clips_above_threshold": false,
+      "annotated_segments": 668,
+      "human_identity": "unsure"
+    }
+  ],
+  "interpretation": "Unlabelled robustness checks, not precision/recall or verified identity. Original outputs unchanged.",
+  "review_top_rejected": [
+    {
+      "file": "20230130--NeV0shDHyw4--Matt Walsh praises SG\u2019s strict laws & police warns employer for fighting with helper \uff5c #YLB #361.TextGrid",
+      "speaker": "SPEAKER_01",
+      "median_similarity": 0.44801634550094604,
+      "similarities": [
+        0.4589235186576843,
+        0.44801634550094604,
+        0.27158957719802856
+      ],
+      "representative_rows": [
+        447545,
+        446422,
+        446947
+      ],
+      "failed_rows": [],
+      "clips_above_threshold": 0,
+      "all_scored_clips_above_threshold": false,
+      "annotated_segments": 668,
+      "human_identity": "unsure"
+    },
+    {
+      "file": "20230315--kBNGp8Pzwgs--Where is the Cheapest Place to Dine Out in SG & Does M'sia Deserve Michelle Yeoh\uff1f \uff5c #YLB #376.TextGrid",
+      "speaker": "SPEAKER_02",
+      "median_similarity": 0.43673068284988403,
+      "similarities": [
+        0.43673068284988403,
+        0.4385684132575989,
+        0.3203962445259094
+      ],
+      "representative_rows": [
+        470367,
+        469343,
+        469848
+      ],
+      "failed_rows": [],
+      "clips_above_threshold": 0,
+      "all_scored_clips_above_threshold": false,
+      "annotated_segments": 545,
+      "human_identity": "unsure"
+    },
+    {
+      "file": "20230109--fbIEHYxAvog--Singapore kids not physically active enough & Jay Chou angers Malaysians \uff5c #YLB #356.TextGrid",
+      "speaker": "SPEAKER_01",
+      "median_similarity": 0.4350491762161255,
+      "similarities": [
+        0.4350491762161255,
+        0.43761613965034485,
+        0.34277844429016113
+      ],
+      "representative_rows": [
+        437758,
+        438366,
+        437393
+      ],
+      "failed_rows": [],
+      "clips_above_threshold": 0,
+      "all_scored_clips_above_threshold": false,
+      "annotated_segments": 596,
+      "human_identity": "unsure"
+    },
+    {
+      "file": "20230912--iES2BRHUZRU--Ashton Kutcher and Mila Kunis Face Backlash & Spanish Football Chief Finally Steps Down \uff5c #YLB #436.TextGrid",
+      "speaker": "SPEAKER_00",
+      "median_similarity": 0.4319291114807129,
+      "similarities": [
+        0.4319291114807129,
+        0.441204309463501,
+        0.3129481077194214
+      ],
+      "representative_rows": [
+        534833,
+        534127,
+        535169
+      ],
+      "failed_rows": [],
+      "clips_above_threshold": 0,
+      "all_scored_clips_above_threshold": false,
+      "annotated_segments": 532,
+      "human_identity": "unsure"
+    },
+    {
+      "file": "20221203--jk792k4a1v4--Should Trevor Noah Have Pressed Will Smith\uff1f.TextGrid",
+      "speaker": "SPEAKER_01",
+      "median_similarity": 0.4257095456123352,
+      "similarities": [
+        0.446378618478775,
+        0.27278703451156616,
+        0.4257095456123352
+      ],
+      "representative_rows": [
+        425007,
+        424856,
+        424944
+      ],
+      "failed_rows": [],
+      "clips_above_threshold": 0,
+      "all_scored_clips_above_threshold": false,
+      "annotated_segments": 95,
+      "human_identity": "unsure"
+    },
+    {
+      "file": "20210604--6bbd2r9hD0Y--Should Singapore cancel the F1 & backlash against a Hari Raya standee \uff5c #YLB 165.TextGrid",
+      "speaker": "SPEAKER_00",
+      "median_similarity": 0.42202165722846985,
+      "similarities": [
+        0.45277082920074463,
+        0.068055659532547,
+        0.42202165722846985
+      ],
+      "representative_rows": [
+        338586,
+        337616,
+        338077
+      ],
+      "failed_rows": [],
+      "clips_above_threshold": 0,
+      "all_scored_clips_above_threshold": false,
+      "annotated_segments": 670,
+      "human_identity": "unsure"
+    },
+    {
+      "file": "20231211--OYmDy_KQQaI--What This Russian Expat REALLY Thinks of SG (ft. Max Chernov) \uff5c #DailyKetchup EP265.TextGrid",
+      "speaker": "SPEAKER_00",
+      "median_similarity": 0.421436607837677,
+      "similarities": [
+        0.47312262654304504,
+        0.3678029775619507,
+        0.421436607837677
+      ],
+      "representative_rows": [
+        277000,
+        276561,
+        276766
+      ],
+      "failed_rows": [],
+      "clips_above_threshold": 0,
+      "all_scored_clips_above_threshold": false,
+      "annotated_segments": 301,
+      "human_identity": "unsure"
+    },
+    {
+      "file": "20230214--dB2a5g8Vl8M--SG Cash-Only Businesses Get Blasted.TextGrid",
+      "speaker": "SPEAKER_01",
+      "median_similarity": 0.4165974259376526,
+      "similarities": [
+        0.4165974259376526,
+        0.43505823612213135,
+        0.3244558572769165
+      ],
+      "representative_rows": [
+        455900,
+        455781,
+        455843
+      ],
+      "failed_rows": [],
+      "clips_above_threshold": 0,
+      "all_scored_clips_above_threshold": false,
+      "annotated_segments": 94,
+      "human_identity": "unsure"
+    },
+    {
+      "file": "20230906--xnhaZTjQ8MI--Kinderland and ECDA Address Alleged Child Abuse & Ho Ching Pitches Caning Diners Who Cheat #YLB #434.TextGrid",
+      "speaker": "SPEAKER_01",
+      "median_similarity": 0.41363805532455444,
+      "similarities": [
+        0.4023596942424774,
+        0.41363805532455444,
+        0.4488406181335449
+      ],
+      "representative_rows": [
+        532163,
+        532840,
+        532507
+      ],
+      "failed_rows": [],
+      "clips_above_threshold": 0,
+      "all_scored_clips_above_threshold": false,
+      "annotated_segments": 422,
+      "human_identity": "unsure"
+    },
+    {
+      "file": "20231021--TaRCpfBA0iU--Ghost Maps Podcast - Are Southeast Asian Ghosts the Scariest in the World\uff1f \uff5c #YLB #450.TextGrid",
+      "speaker": "SPEAKER_02",
+      "median_similarity": 0.4129173755645752,
+      "similarities": [
+        0.4129173755645752,
+        0.16146905720233917,
+        0.4237632751464844
+      ],
+      "representative_rows": [
+        549682,
+        548525,
+        549115
+      ],
+      "failed_rows": [],
+      "clips_above_threshold": 0,
+      "all_scored_clips_above_threshold": false,
+      "annotated_segments": 241,
+      "human_identity": "unsure"
+    }
+  ]
+}
