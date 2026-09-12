@@ -42,7 +42,7 @@ def resolve_manifests(train_path, validation_path, output):
 def train(train_manifest, validation_manifest, output, max_steps=1200, batch_size=8,
           learning_rate=1e-5, validation_interval=200, workers=4, max_minutes=120,
           accumulation=4, early_stopping_patience=0, early_stopping_min_delta=0.0005,
-          retain_optimizer_state=False):
+          retain_optimizer_state=False, resume_checkpoint=None, resume_result=None):
     import torch
     from lightning.pytorch import Trainer, seed_everything
     from lightning.pytorch.callbacks import ModelCheckpoint, EarlyStopping
@@ -61,6 +61,16 @@ def train(train_manifest, validation_manifest, output, max_steps=1200, batch_siz
     if (output / "training-result.json").exists():
         raise FileExistsError("Use a new experiment directory; existing results must not be overwritten")
     paths, data_report = resolve_manifests(train_manifest, validation_manifest, output)
+    parent = None
+    if bool(resume_checkpoint) != bool(resume_result):
+        raise ValueError('Resume requires both the checkpoint and its training result')
+    if resume_checkpoint:
+        resume_checkpoint = str(Path(resume_checkpoint).resolve())
+        parent = json.loads(Path(resume_result).read_text(encoding='utf-8'))
+        if Path(resume_checkpoint).name != parent['best_checkpoint']:
+            raise ValueError('Resume checkpoint differs from parent selected checkpoint')
+        if max_steps <= parent['optimizer_steps']:
+            raise ValueError('Continuation max_steps must exceed the parent step count')
     seed_everything(2026, workers=True)
     checkpoint = ModelCheckpoint(dirpath=output / "checkpoints", monitor="val_wer",
         mode="min", save_top_k=1, save_last=False, save_weights_only=not retain_optimizer_state,
@@ -77,6 +87,15 @@ def train(train_manifest, validation_manifest, output, max_steps=1200, batch_siz
         check_val_every_n_epoch=None, callbacks=callbacks, logger=logger,
         num_sanity_val_steps=2, enable_progress_bar=False, deterministic=False)
     model = ASRModel.from_pretrained("nvidia/parakeet-tdt-0.6b-v3")
+    resume_step = 0
+    if resume_checkpoint:
+        # Accept only our trusted training artifact, never arbitrary external pickle files.
+        state = torch.load(resume_checkpoint, map_location='cpu', weights_only=False)
+        if not state.get('optimizer_states'):
+            raise ValueError('Checkpoint has no optimizer state; cannot truly resume')
+        resume_step = int(state['global_step'])
+        model.load_state_dict(state['state_dict'])
+        del state
     model.set_trainer(trainer)
     for is_training, path in zip([True, False], paths):
         cfg = OmegaConf.create({"manifest_filepath": str(path), "sample_rate": 16000,
@@ -93,6 +112,7 @@ def train(train_manifest, validation_manifest, output, max_steps=1200, batch_siz
         model.cfg.name = "parakeet-tdt-0.6b-v3-ycsep"
     config = {"max_steps": max_steps, "batch_size": batch_size, "accumulation": accumulation,
         "learning_rate": learning_rate, "precision": "bf16-mixed", "seed": 2026,
+        "resume_checkpoint": resume_checkpoint, "resume_step": resume_step,
         "checkpoint_metric": "val_wer", "all_layers_trainable": True,
         "data": data_report, "validation_interval_microbatches": validation_interval,
         "max_minutes": max_minutes, "tokenizer": "Unchanged pretrained tokenizer",
@@ -112,12 +132,23 @@ def train(train_manifest, validation_manifest, output, max_steps=1200, batch_siz
         "metric_definition": "NeMo native validation WER; final TDK comparison uses canonical scorer"}, indent=2), encoding="utf-8")
     torch.cuda.reset_peak_memory_stats()
     started = time.perf_counter()
-    trainer.fit(model)
+    trainer.fit(model, ckpt_path=resume_checkpoint)
     elapsed = time.perf_counter() - started
-    if not checkpoint.best_model_path:
+    if not checkpoint.best_model_path and not parent:
         raise RuntimeError("No validation-selected checkpoint; training is incomplete")
-    # Only load the checkpoint created by this process in its own output directory.
-    state = torch.load(checkpoint.best_model_path, map_location="cpu", weights_only=False)
+    selected_path = checkpoint.best_model_path
+    selected_score = float(checkpoint.best_model_score) if checkpoint.best_model_score is not None else float('inf')
+    if parent and parent['best_validation_wer'] <= selected_score:
+        selected_path = resume_checkpoint
+        selected_score = parent['best_validation_wer']
+    selected_parent = bool(parent and selected_path == resume_checkpoint)
+    if selected_parent:
+        import shutil
+        preserved = output / 'checkpoints' / Path(selected_path).name
+        preserved.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(selected_path, preserved)
+        selected_path = str(preserved)
+    state = torch.load(selected_path, map_location="cpu", weights_only=False)
     model.load_state_dict(state["state_dict"])
     del state
     # Exported inference artifacts must not require this machine's training paths.
@@ -129,8 +160,10 @@ def train(train_manifest, validation_manifest, output, max_steps=1200, batch_siz
     stop_reason = ("validation_plateau" if stopping and stopping.wait_count >= early_stopping_patience
                    else "max_steps" if trainer.global_step >= max_steps else "time_limit_or_trainer_stop")
     result = {"elapsed_training_seconds": elapsed, "optimizer_steps": trainer.global_step,
-              "best_checkpoint": str(Path(checkpoint.best_model_path).name),
-              "best_validation_wer": float(checkpoint.best_model_score),
+              "best_checkpoint": str(Path(selected_path).name),
+              "best_validation_wer": selected_score,
+              "resume_step": resume_step, "additional_optimizer_steps": trainer.global_step-resume_step,
+              "selected_parent_checkpoint": selected_parent,
               "peak_cuda_memory_bytes": torch.cuda.max_memory_allocated(),
               "gpu": torch.cuda.get_device_name(), "status": "completed",
               "baseline_validation": baseline, "stop_reason": stop_reason,
@@ -156,4 +189,6 @@ if __name__ == "__main__":
     parser.add_argument("--early-stopping-patience", type=int, default=0)
     parser.add_argument("--early-stopping-min-delta", type=float, default=0.0005)
     parser.add_argument("--retain-optimizer-state", action="store_true")
+    parser.add_argument("--resume-checkpoint")
+    parser.add_argument("--resume-result")
     train(**vars(parser.parse_args()))

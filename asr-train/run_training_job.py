@@ -32,7 +32,9 @@ def run(args):
                      max_steps=args.max_steps, max_minutes=args.max_minutes, batch_size=args.batch_size,
                      early_stopping_patience=getattr(args, 'early_stopping_patience', 0),
                      early_stopping_min_delta=getattr(args, 'early_stopping_min_delta', 0.0005),
-                     retain_optimizer_state=getattr(args, 'retain_optimizer_state', False))
+                     retain_optimizer_state=getattr(args, 'retain_optimizer_state', False),
+                     resume_checkpoint=getattr(args, 'resume_checkpoint', None),
+                     resume_result=getattr(args, 'resume_result', None))
 
 
 if __name__ == "__main__":
@@ -45,6 +47,8 @@ if __name__ == "__main__":
     parser.add_argument("--early-stopping-patience", type=int, default=0)
     parser.add_argument("--early-stopping-min-delta", type=float, default=0.0005)
     parser.add_argument("--retain-optimizer-state", action="store_true")
+    parser.add_argument("--resume-checkpoint")
+    parser.add_argument("--resume-result")
     parser.add_argument("--expected-train-sha256")
     parser.add_argument("--expected-validation-sha256")
     run(parser.parse_args())

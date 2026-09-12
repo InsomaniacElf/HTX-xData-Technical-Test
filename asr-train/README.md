@@ -113,3 +113,12 @@ from the original pretrained model with the same seed, data and learning rate;
 GPU nondeterminism means the first 1,200 updates need not reproduce exactly.
 This experiment does not replace the released E1 model or its reported results
 until its non-TDK validation evidence has been reviewed.
+
+For a trusted full checkpoint, `--resume-checkpoint` and `--resume-result`
+resume Lightning model/optimizer/training-loop state together. The step cap is
+cumulative (6,000 means at most 3,000 extra updates after step 3,000), while the
+time cap applies to the new fit call. Use the original manifest hash guards and
+unchanged optimizer/batch configuration. Early-stopping state is restored.
+The parent checkpoint is retained if no new checkpoint improves its validation
+WER. This is not a promise of bitwise replay of a mid-epoch shuffled data loader.
+Only load trusted checkpoints: full Lightning artifacts use pickle serialization.
