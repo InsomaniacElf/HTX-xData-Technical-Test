@@ -117,8 +117,16 @@ until its non-TDK validation evidence has been reviewed.
 For a trusted full checkpoint, `--resume-checkpoint` and `--resume-result`
 resume Lightning model/optimizer/training-loop state together. The step cap is
 cumulative (6,000 means at most 3,000 extra updates after step 3,000), while the
-time cap applies to the new fit call. Use the original manifest hash guards and
+time cap can be inherited through Lightning's restored Timer state. Use the original manifest hash guards and
 unchanged optimizer/batch configuration. Early-stopping state is restored.
 The parent checkpoint is retained if no new checkpoint improves its validation
 WER. This is not a promise of bitwise replay of a mid-epoch shuffled data loader.
 Only load trusted checkpoints: full Lightning artifacts use pickle serialization.
+
+**E4 continuation is excluded from model selection.** Its restored timer stopped
+the job after 380 additional updates (20.82 minutes), and it logged an inconsistent
+14.93% validation score at the unchanged resume step, versus 24.65% in the initial
+full validation. The resumed validation-loop/metric state needs an isolated
+regression test before this optional resume path is used again. Do not cite that
+score as an improvement or claim E4 reached convergence. E3's clean, non-resumed
+3,000-step experiment remains the valid later candidate.

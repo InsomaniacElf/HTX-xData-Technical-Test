@@ -1,0 +1,18 @@
+{
+  "elapsed_training_seconds": 9647.236134155999,
+  "optimizer_steps": 3000,
+  "best_checkpoint": "parakeet-step=3000-val_wer=0.2465.ckpt",
+  "best_validation_wer": 0.24646978080272675,
+  "peak_cuda_memory_bytes": 36331534336,
+  "gpu": "NVIDIA A100 80GB PCIe",
+  "status": "completed",
+  "baseline_validation": [
+    {
+      "global_step": 0.0,
+      "val_wer": 0.3220418393611908
+    }
+  ],
+  "stop_reason": "max_steps",
+  "early_stopping_wait_count": 0,
+  "convergence_note": "A plateau criterion is not proof of mathematical or global convergence"
+}

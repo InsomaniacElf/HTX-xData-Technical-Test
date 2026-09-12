@@ -1,0 +1,43 @@
+{
+  "max_steps": 3000,
+  "batch_size": 8,
+  "accumulation": 4,
+  "learning_rate": 1e-05,
+  "precision": "bf16-mixed",
+  "seed": 2026,
+  "checkpoint_metric": "val_wer",
+  "all_layers_trainable": true,
+  "data": [
+    {
+      "split": "train",
+      "rows": 10972,
+      "videos": 852,
+      "hours": 10.046078420138924,
+      "manifest_sha256": "9e37b8b05ca660a3ea086b2f9c49e24c750b04f9572893383f3ea6fc62e0f4a8"
+    },
+    {
+      "split": "validation",
+      "rows": 2133,
+      "videos": 93,
+      "hours": 2.0228451388888904,
+      "manifest_sha256": "21209179e9f32bcefeeb871b6fbe6c4bc2bca72a5e6235cb8abeab961379b9f3"
+    }
+  ],
+  "validation_interval_microbatches": 200,
+  "max_minutes": 180,
+  "tokenizer": "Unchanged pretrained tokenizer",
+  "tokenizer_vocab_size": 8192,
+  "checkpoint_policy": "Best full Lightning checkpoint including optimizer state",
+  "early_stopping": {
+    "patience_validation_checks": 10,
+    "min_delta_absolute_wer": 0.0005
+  },
+  "package_versions": {
+    "torch": "2.7.1+cu126",
+    "nemo_toolkit": "2.5.0",
+    "lightning": "2.4.0",
+    "transformers": "4.53.3",
+    "numba": "0.61.2",
+    "numba-cuda": "0.30.4"
+  }
+}
