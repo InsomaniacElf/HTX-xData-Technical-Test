@@ -1,0 +1,53 @@
+{
+  "interpretation": "Post-test descriptive slices, not tuning criteria. Short segments and reference alignment may confound results.",
+  "row_outcomes": {
+    "improved": 80758,
+    "unchanged": 108974,
+    "regressed": 28279
+  },
+  "video_outcomes": {
+    "improved": 367
+  },
+  "slices": {
+    "all": {
+      "rows": 218011,
+      "words": 2487035,
+      "base_edits": 607513,
+      "ft_edits": 474249,
+      "base_wer": 0.2442719945638079,
+      "ft_wer": 0.19068851061605485
+    },
+    "duration:2-5s": {
+      "rows": 62338,
+      "words": 790503,
+      "base_edits": 192069,
+      "ft_edits": 151806,
+      "base_wer": 0.24297061491227737,
+      "ft_wer": 0.19203722187012573
+    },
+    "duration:5-10s": {
+      "rows": 29134,
+      "words": 780489,
+      "base_edits": 132329,
+      "ft_edits": 106366,
+      "base_wer": 0.16954627163227157,
+      "ft_wer": 0.13628122881936838
+    },
+    "duration:<2s": {
+      "rows": 117758,
+      "words": 437040,
+      "base_edits": 217684,
+      "ft_edits": 164013,
+      "base_wer": 0.49808713161266704,
+      "ft_wer": 0.37528143876990666
+    },
+    "duration:>=10s": {
+      "rows": 8781,
+      "words": 479003,
+      "base_edits": 65431,
+      "ft_edits": 52064,
+      "base_wer": 0.1365983094051603,
+      "ft_wer": 0.1086924299012741
+    }
+  }
+}

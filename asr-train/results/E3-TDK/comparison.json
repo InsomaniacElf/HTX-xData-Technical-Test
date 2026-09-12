@@ -1,0 +1,21 @@
+{
+  "scope": "full_tdk",
+  "rows": 218011,
+  "videos": 367,
+  "failed_rows": 0,
+  "base_wer": 0.2442719945638079,
+  "ft_wer": 0.19068851061605485,
+  "base_cer": 0.1812813338822088,
+  "ft_cer": 0.1421193198391659,
+  "delta_wer": -0.053583483947753044,
+  "relative_wer_reduction": 0.21935991493186155,
+  "delta_wer_95pct_video_bootstrap": [
+    -0.05496140591739777,
+    -0.05223373290102009
+  ],
+  "valid_bootstrap_draws": 2000,
+  "bootstrap_samples": 2000,
+  "seed": 2026,
+  "normalization": "unicode_nfkc_casefold_words_apostrophes_v1; CER excludes spaces",
+  "bootstrap_assumption": "Videos treated as independent clusters; recurring speakers can violate this assumption"
+}

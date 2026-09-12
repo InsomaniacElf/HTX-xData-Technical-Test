@@ -1,0 +1,16 @@
+{
+  "rows": 218011,
+  "scored": 218011,
+  "failed": 0,
+  "word_edits": 474249,
+  "reference_words": 2487035,
+  "character_edits": 1435843,
+  "reference_characters": 10103081,
+  "empty_references": 0,
+  "corpus_wer": 0.19068851061605485,
+  "corpus_cer": 0.1421193198391659,
+  "coverage": 1.0,
+  "normalization": "unicode_nfkc_casefold_words_apostrophes_v1; CER excludes spaces",
+  "prediction_column": "generated_text_ft",
+  "source_sha256": "9aae25264719d9d93e06013bf8d11eb2914fdcf5474b907bc1fe6dabcf407068"
+}
