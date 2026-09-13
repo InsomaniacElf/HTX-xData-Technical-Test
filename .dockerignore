@@ -14,3 +14,11 @@ secret.txt
 .env
 .env.*
 speaker_reference_1min.wav
+asr-train/models
+data
+tmp
+output
+.agents
+.codex
+*.restore
+*.download
