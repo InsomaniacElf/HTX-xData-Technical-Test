@@ -221,6 +221,12 @@ __marimo__/
 test_docs/
 
 # Local verification and working notes (not submission deliverables)
+/tmp/
+/output/
+/.agents/
+/.codex/
+/.idea/
+/.vscode/
 /WORKFLOW.md
 /asr/API_EXECUTION.md
 /asr/DOCKER_VALIDATION.md
@@ -231,6 +237,8 @@ test_docs/
 /speaker-detection/test_*.py
 
 # Intermediate audio, journals, and experiment caches
+/data/
+/asr/TDK_subset-new.csv
 *.sqlite3
 *.sqlite3-journal
 *.sqlite3-wal
